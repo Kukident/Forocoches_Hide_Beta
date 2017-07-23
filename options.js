@@ -4,7 +4,8 @@
 
 $(document).ready(function() {
   banwords = null
-  chrome.storage.sync.get(['banwords', "options"], function(data) {
+  banusers = null
+  chrome.storage.sync.get(['banwords', 'banusers', 'options'], function(data) {
     if (data.options !== undefined){
       options = data["options"]
       console.log(options)
@@ -24,14 +25,46 @@ $(document).ready(function() {
     }
 
     banwords = data["banwords"]
+    banusers = data["banusers"]
+
     $("#lista").val(banwords.join(", ").replace(/[\\]/g,''));
+    $("#lista2").val(banusers.join(", ").replace(/[\\]/g,''));
 
   });
 
 
-  $('#banwords').on('submit', function(e) {
+  // $('#banwords').on('submit', function(e) {
+  //   e.preventDefault();
+  //   string_palabras = $("#lista").val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
+  //   console.log(string_palabras)
+  //   string_palabras = escapeRegExp(string_palabras)
+  //   console.log(string_palabras)
+  //   string_palabras = string_palabras.split("\,")
+  //   if (string_palabras[string_palabras.length-1] == ""){
+  //     string_palabras.splice(string_palabras.length-1, 1 );
+  //   }
+  //   console.log(string_palabras)
+  //   var datatosync = {}
+  //   datatosync["banwords"] = string_palabras
+  //   chrome.storage.sync.set(datatosync, function() {
+  //     // Notify that we saved.
+  //     console.log("Guardado correctamente")
+  //     $("#guardar_palabras").addClass("btn-success btn-raised")
+  //     setTimeout(function(){
+  //       $("#guardar_palabras").removeClass("btn-success btn-raised")
+  //     }, 1000);
+  //   });
+  // });
+
+  $('form').on('submit', function(e) {
     e.preventDefault();
-    string_palabras = $("#lista").val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
+    form = $(this).attr('id')
+    button = $("button",this)
+    textarea = $("textarea", this)
+    //console.log($(this).attr('id'))
+    //console.log($("button",this).attr('id'))
+    //console.log($("textarea", this).val())
+    string_palabras = textarea.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
     console.log(string_palabras)
     string_palabras = escapeRegExp(string_palabras)
     console.log(string_palabras)
@@ -41,13 +74,13 @@ $(document).ready(function() {
     }
     console.log(string_palabras)
     var datatosync = {}
-    datatosync["banwords"] = string_palabras
+    datatosync[form] = string_palabras
     chrome.storage.sync.set(datatosync, function() {
       // Notify that we saved.
       console.log("Guardado correctamente")
-      $("#guardar_palabras").addClass("btn-success btn-raised")
+      button.addClass("btn-success btn-raised")
       setTimeout(function(){
-        $("#guardar_palabras").removeClass("btn-success btn-raised")
+        button.removeClass("btn-success btn-raised")
       }, 1000);
     });
   });
