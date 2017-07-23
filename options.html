@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Bloquea los hilos que te salgan de la minga">
+  <meta name="author" content="Kukident_FC">
+
+  <title>FC ThreadBlock</title>
+
+  <!-- Scripts -->
+  <script src="js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script src="js/ripples.min.js"></script>
+  <script src="js/material.min.js"></script>
+  <script src="options.js"></script>
+
+  <!-- Cascading Style Sheets -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-material-design.css" rel="stylesheet">
+  <link href="css/ripples.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+  <div class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse"> -->
+        <!--   <span class="icon-bar"></span> -->
+        <!--   <span class="icon-bar"></span> -->
+        <!--   <span class="icon-bar"></span> -->
+        <!-- </button> -->
+        <a class="navbar-brand" href="javascript:void(0)">FC Hide Beta</a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#options" data-toggle="tab">Active</a></li>
+          <li><a href="#blacklist" data-toggle="tab">Link</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://github.com">Github</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="options">
+      <div class="col-md-4">
+        <div class="well well-lg">
+          <div class="row row2">
+            <span style="margin-left: 25%">Ocultar hilos:</span>
+            <span style="margin-right: 25%; float: right">
+              <div class="togglebutton">
+                <label>
+                  <input id="ocultar" type="checkbox">
+                  <span class="toggle"></span>
+                </label>
+              </div>
+            </span>
+          </div>
+          <div class="row row2">
+            <span style="margin-left: 25%">Oscurecer hilos:</span>
+            <span style="margin-right: 25%; float: right">
+              <div class="togglebutton">
+                <label>
+                  <input id="oscurecer" type="checkbox">
+                  <span class="toggle"></span>
+                </label>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-8">
+          <div class="well well-lg">
+          <form id="banwords">
+            <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea>
+            <button type="submit" id="guardar_palabras" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
+          </form>
+        </div>
+      </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="blacklist">afasfasdfasdf</divZ
+      </div>
+    </body>
+    </html>
