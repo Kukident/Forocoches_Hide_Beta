@@ -1,70 +1,73 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="Bloquea los hilos que te salgan de la minga">
-    <meta name="author" content="Kukident_FC">
-    
-    <title>FC ThreadBlock</title>
-    
-    <!-- Scripts -->
-    <script src="js/jquery-3.2.1.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
-    <script src="popup.js"></script>
-    
-    <!-- Cascading Style Sheets -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/bootstrap-toggle.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet" media="screen">
-	
-  </head>
-  
-  <body>
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="navbar-header">
-	<a class="navbar-brand">FC Hide</a>
-      </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-	<ul class="nav navbar-nav">
-	  <li class="active">
-	    <a href="#options" data-toggle="tab">Opciones</a>
-	  </li>
-	  <li>
-	    <a href="#blacklist" data-toggle="tab">Lista de palabras</a>
-	  </li>
-	  <li>
-	    <a href="#about" data-toggle="tab">Info</a>
-	  </li>
-	</ul>
-      </div>
-    </nav>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="options">
-	<div class="row row2">
-	  <span style="margin-left: 25%">Ocultar hilos:</span>
-	  <span style="margin-right: 25%; float: right">
-	    <input id="ocultar" type="checkbox" checked data-toggle="toggle" data-size="mini" data-onstyle="success" data-offstyle="danger">
-	  </span>
-	</div>
-	<div class="row row2">
-	  <span style="margin-left: 25%">Oscurecer hilos:</span>
-	  <span style="margin-right: 25%; float: right">
-	    <input id="oscurecer" type="checkbox" checked data-toggle="toggle" data-size="mini" data-onstyle="success" data-offstyle="danger">
-	  </span>
-	</div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="blacklist">
-	<form id="blacklist2">
-	  <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea>
-	  <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
-	</form>      
-      </div>
-      
-      <div role="tabpanel" class="tab-pane" id="about">
-	Copyright 2017
-      </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Bloquea los hilos que te salgan de la minga">
+  <meta name="author" content="Kukident_FC">
+
+  <title>FC Hide Beta</title>
+
+  <!-- Scripts -->
+  <script src="js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script src="js/ripples.min.js"></script>
+  <script src="js/material.min.js"></script>
+  <script src="popup.js"></script>
+
+  <!-- Cascading Style Sheets -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-material-design.css" rel="stylesheet">
+  <link href="css/ripples.min.css" rel="stylesheet">
+  <link href="css/material-icons.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+</head>
+
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse"> -->
+      <!--   <span class="icon-bar"></span> -->
+      <!--   <span class="icon-bar"></span> -->
+      <!--   <span class="icon-bar"></span> -->
+      <!-- </button> -->
+      <a class="navbar-brand">FC Hide Beta</a>
     </div>
-  </body>
+
+  </div>
+</div>
+<div class="col-lg-12">
+  <div class="row">
+    <form id="banwords">
+      <div class="col-xs-9">
+        <div class="form-group label-floating">
+          <label class="control-label" for="focusedInput">Ocultar hilos por palabras</label>
+          <input class="form-control" id="focusedInput" type="text">
+          <p class="help-block">Usa la <code>,</code>para delimitar diferentes titulos</p>
+        </div>
+      </div>
+      <div class="col-xs-2 botones">
+        <button class="btn btn-raised btn-default" id="s1"><i class="material-icons" style="font-size:18px;">speaker_notes_off</i></button>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <form id="banusers">
+      <div class="col-xs-9">
+        <div class="form-group label-floating">
+          <label class="control-label" for="focusedInput2">Ocultar hilos por usuario</label>
+          <input class="form-control" id="focusedInput2" type="text">
+          <p class="help-block">Usa la <code>,</code>para ocultar multiples usuarios</p>
+        </div>
+      </div>
+      <div class="col-xs-2 botones">
+        <button class="btn btn-raised btn-default" id="s2"><i class="material-icons" style="font-size:18px;">speaker_notes_off</i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="col-lg-12 text-center botones">
+  <button class="btn btn-raised btn-default" id="options">Avanzado</button>
+</div>
+</body>
 </html>

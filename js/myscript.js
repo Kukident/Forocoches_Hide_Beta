@@ -6,13 +6,25 @@
 $("#collapseobj_st_2").before('<tbody id="collapseobj_st_3"> \
 </tbody> \
 ')
-
+var palabras = []
+var users = []
 var hilos_ocultados = 0;
 chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
-  //console.log(data)
-  palabras = data["banwords"]
-  users = data["banusers"]
-  options = data["options"]
+  console.log(data)
+  if (Object.keys(data).length == 0){
+    options = false
+  }
+  else{
+    options = data["options"]
+  }
+
+  if (data.banwords !== undefined){
+    palabras = data["banwords"]
+  }
+  if(data.banusers !== undefined){
+    users = data["banusers"]
+  }
+
   if (options["ocultar"] == true || options["oscurecer"] == true){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
     // (?:\s|^)(cadena a comprobar)(?=\s|$)
@@ -26,12 +38,14 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
       // console.log(palabras)
       // console.log(expreg)
       if (texto.match(expreg) != null || user.match(expreg_users)){
-        if (options["ocultar"] == true){
-          $(this).closest("tr").hide()
-        }
-        else if (options["oscurecer"] == true){
+        if (options["ocultar"] == true || options["oscurecer"] == true){
           $(this).closest("tr").css("opacity" ,0.2)
         }
+        //   $(this).closest("tr").hide()
+        // }
+        // else if (options["oscurecer"] == true){
+        //   $(this).closest("tr").css("opacity" ,0.2)
+        // }
         $("#collapseobj_st_3").append($(this).closest("tr"))
         hilos_ocultados++
         // console.log(hilos_ocultados)

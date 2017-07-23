@@ -4,7 +4,7 @@
     "short_name" : "FC Hide BETA",
 		"options_page": "options.html",
 	"description": "Bloquea los hilos que te salgan del forro. Añade las palabras que quieras bloquear e ya.",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"permissions": [
 		"storage"
 	],

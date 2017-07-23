@@ -5,24 +5,22 @@
   <meta name="description" content="Bloquea los hilos que te salgan de la minga">
   <meta name="author" content="Kukident_FC">
 
-  <title>FC ThreadBlock</title>
-
-  <!-- Scripts -->
-  <script src="js/jquery-3.2.1.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script src="js/ripples.min.js"></script>
-  <script src="js/material.min.js"></script>
-  <script src="options.js"></script>
+  <title>FC Hide Beta</title>
 
   <!-- Cascading Style Sheets -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/bootstrap-material-design.css" rel="stylesheet">
+ <link href="css/bootstrap-material-design.min.css" rel="stylesheet">
   <link href="css/ripples.min.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/material.js"></script>
+  <script src="js/ripples.min.js"></script>
+  <script src="options.js"></script>
 </head>
 
 <body>
-
-
   <div class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -34,13 +32,13 @@
         <a class="navbar-brand" href="javascript:void(0)">FC Hide Beta</a>
       </div>
       <div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav">
+        <!-- <ul class="nav navbar-nav">
           <li class="active"><a href="#options" data-toggle="tab">Active</a></li>
           <li><a href="#blacklist" data-toggle="tab">Link</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="http://github.com">Github</a></li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </div>
@@ -49,6 +47,7 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="options">
       <div class="col-md-4">
+        <div class="col-lg-12">
         <div class="well well-lg">
           <div class="row row2">
             <span style="margin-left: 25%">Ocultar hilos:</span>
@@ -56,29 +55,61 @@
               <div class="togglebutton">
                 <label>
                   <input id="ocultar" type="checkbox">
-                  <span class="toggle"></span>
                 </label>
               </div>
             </span>
           </div>
-          <div class="row row2">
+          <!-- <div class="row row2">
             <span style="margin-left: 25%">Oscurecer hilos:</span>
             <span style="margin-right: 25%; float: right">
               <div class="togglebutton">
                 <label>
                   <input id="oscurecer" type="checkbox">
-                  <span class="toggle"></span>
                 </label>
               </div>
             </span>
+          </div> -->
+        </div>
+      </div>
+
+        <!-- <div class="col-lg-12">
+        <div class="well well-lg">
+          Ayuda:
+          <ul>
+            <li>
+              No distingue entre mayusculas y minusculas
+            </li>
+          </ul>
+        </div>
+      </div> -->
+
+      <div class="modal" id="modalayuda">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+              <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
           </div>
         </div>
+      </div>
+
+
+
       </div>
         <div class="col-md-8">
           <div class="well well-lg">
             <span>Ocultar hilos por palabras</span>
           <form id="banwords">
             <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea>
+            <p class="help-block">Usa la <code>,</code>para ocultar multiples hilos. No distingue entre mayusculas y minusculas. <a data-toggle="modal" href="#modalayuda"><code id="ejemplo1">Ejemplo de uso</code></a></p>
             <button type="submit" id="guardar_palabras" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
           </form>
         </div>
@@ -87,13 +118,14 @@
           <span>Ocultar hilos por usuario</span>
         <form id="banusers">
           <textarea placeholder="Nombre de usuarios separados por comas" id="lista2" class="form-control" rows="6"></textarea>
+          <p class="help-block">Usa la <code>,</code>para ocultar multiples usuarios. No distingue entre mayusculas y minusculas.  <a data-toggle="modal" href="#modalayuda"><code id="ejemplo2">Ejemplo de uso</code></a></p></p>
           <button type="submit" id="guardar_usuarios" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
         </form>
         </div>
 
       </div>
       </div>
-      <div role="tabpanel" class="tab-pane" id="blacklist">afasfasdfasdf</divZ
+      <div role="tabpanel" class="tab-pane" id="ayuda">afasfasdfasdf</div>
       </div>
     </body>
     </html>
