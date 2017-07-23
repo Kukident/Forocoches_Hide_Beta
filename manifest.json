@@ -1,0 +1,30 @@
+{
+	"manifest_version": 2,
+    "name": "ForoCoches Hide BETA",
+    "short_name" : "FC Hide BETA",
+	"description": "Bloquea los hilos que te salgan del forro. Añade las palabras que quieras bloquear e ya.",
+	"version": "0.0.2",
+	"permissions": [
+		"storage"
+	],
+	"icons": { 
+		"16": "img/icon.png",
+		"48": "img/icon.png",
+		"128": "img/icon.png" 
+	},
+	"browser_action": {
+		"default_icon": {                    
+			"19": "img/icon.png",          
+			"38": "img/icon.png"          
+		},
+		"default_popup": "popup.html"
+	},
+	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+	"content_scripts": [
+    {
+      "matches": ["http://www.forocoches.com/foro/forumdisplay.php?f=2","https://www.forocoches.com/foro/forumdisplay.php?f=2"],
+      "js": ["js/jquery-3.2.1.js", "js/myscript.js"],
+	   "run_at": "document_end"
+    }
+  ]
+}
