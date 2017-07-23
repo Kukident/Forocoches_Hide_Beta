@@ -2,20 +2,21 @@
 	"manifest_version": 2,
     "name": "ForoCoches Hide BETA",
     "short_name" : "FC Hide BETA",
+		"options_page": "options.html",
 	"description": "Bloquea los hilos que te salgan del forro. Añade las palabras que quieras bloquear e ya.",
 	"version": "0.0.2",
 	"permissions": [
 		"storage"
 	],
-	"icons": { 
+	"icons": {
 		"16": "img/icon.png",
 		"48": "img/icon.png",
-		"128": "img/icon.png" 
+		"128": "img/icon.png"
 	},
 	"browser_action": {
-		"default_icon": {                    
-			"19": "img/icon.png",          
-			"38": "img/icon.png"          
+		"default_icon": {
+			"19": "img/icon.png",
+			"38": "img/icon.png"
 		},
 		"default_popup": "popup.html"
 	},
