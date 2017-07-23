@@ -37,7 +37,7 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
       var user = $(this).parent().next().text().trim().toLowerCase()
       // console.log(palabras)
       // console.log(expreg)
-      if (texto.match(expreg) != null || user.match(expreg_users)){
+      if (texto.match(expreg) != null || user.match(expreg_users != null)){
         if (options["ocultar"] == true || options["oscurecer"] == true){
           $(this).closest("tr").css("opacity" ,0.2)
         }
@@ -52,7 +52,6 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
       }
     });
     $(".cmega2").append("<br><span class='smallfont'>Se han ocultado "+hilos_ocultados+" hilos</span>")
-
 
     $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
     <a href=""> \
