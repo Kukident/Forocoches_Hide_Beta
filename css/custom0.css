@@ -1,0 +1,16 @@
+/**
+ * Chrome Extension Twitter Bootstrap 3 Template
+ * Custom CSS
+ *
+ */
+.chip{
+margin-bottom: 4px;
+margin-top: 1px
+}
+textarea {
+    resize: none;
+}
+
+.btn-tags {
+  float: right;
+}

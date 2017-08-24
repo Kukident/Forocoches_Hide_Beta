@@ -11,12 +11,19 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
  <link href="css/bootstrap-material-design.min.css" rel="stylesheet">
   <link href="css/ripples.min.css" rel="stylesheet">
+  <link href="css/materialize-tags.css" rel="stylesheet">
+  <link href="css/material-icons.css" rel="stylesheet">
+  <link href="css/custom0.css" rel="stylesheet">
+
+
 
   <!-- Scripts -->
   <script src="js/jquery-1.10.2.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/material.js"></script>
   <script src="js/ripples.min.js"></script>
+  <script src="js/materialize-tags.js"></script>
+  <script src="js/typeahead.js"></script>
   <script src="options.js"></script>
 </head>
 
@@ -35,10 +42,10 @@
         <!-- <ul class="nav navbar-nav">
           <li class="active"><a href="#options" data-toggle="tab">Active</a></li>
           <li><a href="#blacklist" data-toggle="tab">Link</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="http://github.com">Github</a></li>
         </ul> -->
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="https://github.com/Kukident/Forocoches_Hide_Beta">Github</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -107,8 +114,10 @@
         <div class="col-md-8">
           <div class="well well-lg">
             <span>Ocultar hilos por palabras</span>
+            <button id="mostrar" class="btn btn-tags btn-sm">Mostrar texto plano</button>
           <form id="banwords">
-            <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea>
+            <!-- <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea> -->
+            <input type="text" class="banwords" id="lista" data-role="materialtags"></input>
             <p class="help-block">Usa la <code>,</code>para ocultar multiples hilos. No distingue entre mayusculas y minusculas. <a data-toggle="modal" href="#modalayuda"><code id="ejemplo1">Ejemplo de uso</code></a></p>
             <button type="submit" id="guardar_palabras" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
           </form>
@@ -116,8 +125,9 @@
 
         <div class="well well-lg">
           <span>Ocultar hilos por usuario</span>
+          <button id="mostrar2" class="btn btn-tags btn-sm">Mostrar texto plano</button>
         <form id="banusers">
-          <textarea placeholder="Nombre de usuarios separados por comas" id="lista2" class="form-control" rows="6"></textarea>
+          <input type="text" class="banusers" id="lista2" data-role="materialtags"></input>
           <p class="help-block">Usa la <code>,</code>para ocultar multiples usuarios. No distingue entre mayusculas y minusculas.  <a data-toggle="modal" href="#modalayuda"><code id="ejemplo2">Ejemplo de uso</code></a></p></p>
           <button type="submit" id="guardar_usuarios" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
         </form>
