@@ -4,72 +4,56 @@
 
 $(document).ready(function() {
   var foros = {
-    "Zona General": {
-      "General": "2",
-      "Electrónica / Informática": {
-        "id": "17",
-        "Fotografía": "82"
-      },
-      "Empleo": {
-        "id": "23",
-        "Taxi": "64"
-      },
-      "Viajes": "27",
-      "Quedadas (KDD)": "15"
-    },
-    "Zona ForoCoches": {
-      "ForoCoches": "4",
-      "Competición": "18",
-      "Clásicos": {
-        "id": "20",
-        "Compra - Venta Clasicos": "65"
-      },
-      "Monovolumenes": "47",
-      "4x4 / Ocio": {
-        "id": "21",
-        "Compra - Venta 4x4 / Ocio": "79"
-      },
-      "Modelismo": {
-        "id": "28",
-        "Compra - Venta Modelismo": "70"
-      },
-      "Camiones / Furgones / Autobuses": "76",
-      "Motos": {
-        "id": "48",
-        "Compra - Venta Motos": "80"
-      }
-    },
-    "Zona Técnica & Info": {
-      "Mecánica": "19",
-      "Car-Audio": "5",
-      "Seguros": {
-        "id": "31",
-        "Promos Seguros": "87"
-      },
-      "Tráfico / Radares": "30",
-      "Tuning": "6"
-    },
-    "Zona Gaming": {
-      "Juegos de Coches": "16",
-      "Juegos Online": "43"
-    },
-    "Zona Comercial": {
-      "Plan PIVE 8": "85",
-      "Compra - Venta Profesional": "34"
-    },
-    "Zona Compra-Venta": {
-      "Compra - Venta Motor": "11",
-      "Compra - Venta Audio / Tuning": "25",
-      "Compra - Venta Electrónica": "22",
-      "Compra - Venta General": "69"
-    },
-    "Otros": {
-      "Info / Ayuda": "12",
-      "Pruebas": "8"
+    "2": ["General"],
+    "17": ["Electrónica / Informática"],
+    "82": ["Fotografía", 17],
+    "26": ["Empleo"],
+    "64": ["Taxi", 26],
+    "27": ["Viajes"],
+    "15": ["Quedadas (KDD)"],
+    "4": ["ForoCoches"],
+    "18": ["Competición"],
+    "20": ["Clásicos"],
+    "65": ["Compra - Venta Clasicos", 20],
+    "47": ["Monovolumentes"],
+    "21": ["4x4 / Ocio"],
+    "79": ["Compra - Venta 4x4 / Ocio", 21],
+    "28": ["Modelismo"],
+    "70": ["Compra - Venta Modelismo", 28],
+    "76": ["Camiones / Furgones / Autobuses"],
+    "48": ["Motos"],
+    "80": ["Compra - Venta Motos", 48],
+    "19": ["Mecánica"],
+    "5": ["Car-Audio"],
+    "31": ["Seguros"],
+    "87": ["Promos Seguros", 31],
+    "30": ["Tráfico / Radares"],
+    "6": ["Tuning"],
+    "16": ["Juegos de Coches"],
+    "43": ["Juegos Online"],
+    "85": ["Plan PIVE"],
+    "34": ["Compra - Venta Profesional"],
+    "11": ["Compra - Venta Motor"],
+    "25": ["Compra - Venta Audio / Tuning"],
+    "22": ["Compra - Venta Electrónica"],
+    "69": ["Compra - Venta General"],
+    "12": ["Info / Ayuda"],
+    "8": ["Ayuda"]
+  }
+  // var dropdown_content = '<li><a>'Dropdown link'</a></li>'
+  // $(".dropdown-menu").html("huehue")
+  var foros_usados = ["6"]
+  foros_usados.forEach(function(id){
+    add_button_foro(id)
+  })
+  for (var key in foros){
+    if (foros[key][0] === "General"){
+      continue
     }
+    $(".dropdown-menu").append('<li class="foro" id="' + key + '"><a>'+ foros[key][0] +'</a></li>')
+
   }
 
-  console.log(foros)
   $.material.init();
   var banwords = []
   var banusers = []
@@ -105,6 +89,46 @@ $(document).ready(function() {
     $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
     $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
   });
+  /*********************Seleccionar foros*********************/
+  $('.foro').on('click', function(e){
+    id = $(this).attr('id')
+    pos = $.inArray(id, foros_usados)
+    if (pos === -1){
+      add_button_foro(id)
+      foros_usados.push(id)
+    }
+    console.log(foros_usados)
+  })
+
+  function add_button_foro(id){
+    var boton_html = '<div class="col-lg-12"> \
+    <a id="' + id + '" class="btn btn-raised btn-block btn-primary btn-foro">' + foros[id] + '<span class="close">x</span> </a>\
+    </div> \ '
+    $('#boton_end').before(boton_html)
+  }
+
+  $(document).on('click', '.btn-foro',  function(e){
+    id = $(this).attr('id')
+    console.log(id)
+    $('#lista').materialtags('removeAll');
+    $('#lista2').materialtags('removeAll');
+    if (id==2){
+      $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
+      $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
+    }
+  })
+
+  $(document).on('click', '.close',  function(e){
+    id = $(this).closest('a').attr('id');
+    pos = $.inArray(id, foros_usados)
+    if (pos != -1){
+      foros_usados.splice(pos, 1 );
+      boton = $(this).closest("div").remove()
+    }
+    console.log(foros_usados)
+  })
+
+  /*********************Fin seleccionar foros*********************/
 
   /*********************Mostrar etiquetas o texto plano*********************/
   var tags_words = true
