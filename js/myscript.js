@@ -3,9 +3,15 @@
 // console.log($(this).children() > $("[id^=thread_title_]"))
 // });
 
-$("#collapseobj_st_2").before('<tbody id="collapseobj_st_3"> \
+//DEPRECATED: Borrar codigo, Solo funciona en el general
+// $("#collapseobj_st_2").before('<tbody id="collapseobj_st_3"> \
+// </tbody> \
+// ')
+
+$("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \
 </tbody> \
 ')
+
 var palabras = []
 var users = []
 var hilos_ocultados = 0;
@@ -52,13 +58,24 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
       }
     });
     $(".cmega2").append("<br><span class='smallfont'>Se han ocultado "+hilos_ocultados+" hilos</span>")
-
-    $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
-    <a href=""> \
-    Hilos Ocultos \
-    <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
-    </a> \
-    </td>')
+    //TODO: Optimizar codigo
+    console.log($("#stickies_collapse"))
+    if ($("#stickies_collapse").length){
+      $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
+      <a href=""> \
+      Hilos Ocultos \
+      <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
+      </a> \
+      </td>')
+    }
+    else {
+      $("#forumtools").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
+      <a href=""> \
+      Hilos Ocultos \
+      <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
+      </a> \
+      </td>')
+    }
     $("#collapseobj_st_3").hide()
     $("#collapseobj_st_3").append('<tr><td class="thead" colspan="6">&nbsp;</td></tr>')
 

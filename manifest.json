@@ -23,7 +23,7 @@
 	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
 	"content_scripts": [
     {
-      "matches": ["http://www.forocoches.com/foro/forumdisplay.php?f=2","https://www.forocoches.com/foro/forumdisplay.php?f=2"],
+      "matches": ["http://www.forocoches.com/foro/forumdisplay.php?f=*","https://www.forocoches.com/foro/forumdisplay.php?f=*"],
       "js": ["js/jquery-3.2.1.js", "js/myscript.js"],
 	   "run_at": "document_end"
     }
