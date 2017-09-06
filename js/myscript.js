@@ -8,14 +8,12 @@
 // </tbody> \
 // ')
 
-$("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \
-</tbody> \
-')
-
 var palabras = []
 var users = []
 var hilos_ocultados = 0;
-chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
+var id_foro = GetURLParameter('f');
+
+chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(data) {
   console.log(data)
   if (Object.keys(data).length == 0){
     options = false
@@ -24,14 +22,22 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
     options = data["options"]
   }
 
-  if (data.banwords !== undefined){
-    palabras = data["banwords"]
-  }
-  if(data.banusers !== undefined){
-    users = data["banusers"]
+  // if (data.banwords !== undefined){
+  //   palabras = data["banwords"]
+  // }
+  // if(data.banusers !== undefined){
+  //   users = data["banusers"]
+  // }
+
+
+    if (data["filtrar"][id_foro]["ocultar"]["banwords"] !== undefined){
+      palabras = data["filtrar"][id_foro]["ocultar"]["banwords"]
+    }
+    if(data["filtrar"][id_foro]["ocultar"]["banusers"] !== undefined){
+      users = data["filtrar"][id_foro]["ocultar"]["banusers"]
   }
 
-  if (options["ocultar"] == true || options["oscurecer"] == true){
+  if (options["ocultar"] == true && $.inArray(id_foro, data["filtrar"]["options"]["foros_usados"]) !== -1){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
     // (?:\s|^)(cadena a comprobar)(?=\s|$)
     var expreg = new RegExp("(?:\\s|^)("+palabras.join(")(?=\\s|$)|(?:\\s|^)(")+")(?=\\s|$)")
@@ -43,7 +49,8 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
       var user = $(this).parent().next().text().trim().toLowerCase()
       // console.log(palabras)
       // console.log(expreg)
-      if (texto.match(expreg) != null || user.match(expreg_users != null)){
+
+      if (texto.match(expreg) != null || user.match(expreg_users) != null){
         if (options["ocultar"] == true || options["oscurecer"] == true){
           $(this).closest("tr").css("opacity" ,0.2)
         }
@@ -57,42 +64,58 @@ chrome.storage.sync.get(['banwords', 'banusers','options'], function(data) {
         // console.log(hilos_ocultados)
       }
     });
-    $(".cmega2").append("<br><span class='smallfont'>Se han ocultado "+hilos_ocultados+" hilos</span>")
-    //TODO: Optimizar codigo
-    console.log($("#stickies_collapse"))
-    if ($("#stickies_collapse").length){
-      $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
-      <a href=""> \
-      Hilos Ocultos \
-      <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
-      </a> \
-      </td>')
-    }
-    else {
-      $("#forumtools").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
-      <a href=""> \
-      Hilos Ocultos \
-      <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
-      </a> \
-      </td>')
-    }
-    $("#collapseobj_st_3").hide()
     $("#collapseobj_st_3").append('<tr><td class="thead" colspan="6">&nbsp;</td></tr>')
-
-    $("#hide_collapse").on('click', function(e) {
-      e.preventDefault();
-      if ($("#collapseobj_st_3").is(":visible")){
-        $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3">')
-        $("#collapseobj_st_3").hide()
-      }
-      else {
-        $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat.gif" alt="" border="0" hspace="3">')
-        $("#collapseobj_st_3").show()
-      }
-    });
-
-
-
-
+    $(".cmega2").append("<br><span class='smallfont'>Se han ocultado "+hilos_ocultados+" hilos</span>")
   }
 });
+
+function GetURLParameter(sParam){
+var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam)
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
+//////////////////////Inicio crear interfaz\\\\\\\\\\\\\\\\\\\\\\\\\\\\º
+$("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \
+</tbody> \
+')
+//TODO: Optimizar codigo
+console.log($("#stickies_collapse"))
+if ($("#stickies_collapse").length){
+  $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
+  <a href=""> \
+  Hilos Ocultos \
+  <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
+  </a> \
+  </td>')
+}
+else {
+  $("#forumtools").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
+  <a href=""> \
+  Hilos Ocultos \
+  <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
+  </a> \
+  </td>')
+}
+$("#collapseobj_st_3").hide()
+// $("#collapseobj_st_3").append('<tr><td class="thead" colspan="6">&nbsp;</td></tr>')
+
+$("#hide_collapse").on('click', function(e) {
+  e.preventDefault();
+  if ($("#collapseobj_st_3").is(":visible")){
+    $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3">')
+    $("#collapseobj_st_3").hide()
+  }
+  else {
+    $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat.gif" alt="" border="0" hspace="3">')
+    $("#collapseobj_st_3").show()
+  }
+});
+//////////////////////Fin crear interfaz\\\\\\\\\\\\\\\\\\\\\\\\\\\\

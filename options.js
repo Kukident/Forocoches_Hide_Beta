@@ -1,7 +1,6 @@
 // $(document).ready(function() {
 //     chrome.storage.sync.clear();
 // });
-
 $(document).ready(function() {
   var foros = {
     "2": ["General"],
@@ -42,10 +41,104 @@ $(document).ready(function() {
   }
   // var dropdown_content = '<li><a>'Dropdown link'</a></li>'
   // $(".dropdown-menu").html("huehue")
-  var foros_usados = ["6"]
-  foros_usados.forEach(function(id){
-    add_button_foro(id)
-  })
+  //var foros_usados = []
+
+  $.material.init();
+  get_db("2", true)
+  var filtrar = []
+
+
+  function get_db(foro, options2=false){
+    chrome.storage.sync.get(['banwords', 'banusers', 'filtrar', 'options'], function(data) {
+      console.log(data)
+      var banwords = []
+      var banusers = []
+      if (data.options !== undefined){
+        options = data["options"]
+        console.log(options)
+        //$('#ocultar').bootstrapToggle(options["ocultar"])
+        //$('#oscurecer').bootstrapToggle(options["oscurecer"])
+        $('#ocultar').attr('checked', options["ocultar"])
+        // $('#oscurecer').attr('checked', options["oscurecer"])
+      }
+      else{
+        //$('#ocultar').bootstrapToggle("off")
+        //$('#oscurecer').bootstrapToggle("on")
+        $('#ocultar').attr('checked', true)
+        // $('#oscurecer').attr('checked', true)
+        options["ocultar"] = true
+        // options["oscurecer"] = true
+        save_options()
+      }
+      // if (data.banwords !== undefined){
+      //   banwords = data["banwords"]
+      // }
+      // if(data.banusers !== undefined){
+      //   banusers = data["banusers"]
+      // }
+      if (data['filtrar'] !== undefined){
+        filtrar = data['filtrar']
+
+        if (data['filtrar']["options"] == undefined){
+          filtrar["options"] = {}
+        }
+
+        if (data['filtrar'][foro] == undefined){
+          filtrar[foro] = {}
+          filtrar[foro]["ocultar"] = {}
+          filtrar[foro]["ocultar"]["banwords"] = []
+          filtrar[foro]["ocultar"]["banusers"] = []
+        }
+        else {
+          if (data['filtrar'][foro]["ocultar"] == undefined){
+            filtrar[foro]["ocultar"] = {}
+            filtrar[foro]["ocultar"]["banwords"] = []
+            filtrar[foro]["ocultar"]["banusers"] = []
+          }
+          else{
+
+            if (data['filtrar'][foro]["ocultar"]["banwords"] !== undefined){
+              banwords = data['filtrar'][foro]["ocultar"]["banwords"]
+            }
+            else{
+              filtrar[foro]["ocultar"]["banwords"] = banwords
+            }
+            if(data['filtrar'][foro]["ocultar"]["banusers"] !== undefined){
+              banusers = data['filtrar'][foro]["ocultar"]["banusers"]
+            }
+            else{
+              filtrar[foro]["ocultar"]["banusers"] = banusers
+            }
+          }
+        }
+      }
+      else{
+        filtrar[foro] = {}
+        filtrar[foro]["ocultar"] = {}
+        filtrar[foro]["ocultar"]["banwords"] = []
+        filtrar[foro]["ocultar"]["banusers"] = []
+        filtrar["options"] = {}
+      }
+
+
+      //DEPRECATED: Borrar codigo, util cuando utilizabamos textarea en vez de materialtags
+      //$("#lista").val(banwords.join(", ").replace(/[\\]/g,''));
+      // $("#lista2").val(banusers.join(", ").replace(/[\\]/g,''));
+      if (filtrar["options"]["foros_usados"] == undefined){
+        filtrar["options"]["foros_usados"] = ['2']
+      }
+      if (options2){
+        filtrar["options"]["foros_usados"].forEach(function(id){
+          add_button_foro(id)
+        })
+      }
+      $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
+      $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
+    });
+  }
+  /*********************Seleccionar foros*********************/
+
+
   for (var key in foros){
     if (foros[key][0] === "General"){
       continue
@@ -53,51 +146,16 @@ $(document).ready(function() {
     $(".dropdown-menu").append('<li class="foro" id="' + key + '"><a>'+ foros[key][0] +'</a></li>')
 
   }
-
-  $.material.init();
-  var banwords = []
-  var banusers = []
-  chrome.storage.sync.get(['banwords', 'banusers', 'options'], function(data) {
-    if (data.options !== undefined){
-      options = data["options"]
-      console.log(options)
-      //$('#ocultar').bootstrapToggle(options["ocultar"])
-      //$('#oscurecer').bootstrapToggle(options["oscurecer"])
-      $('#ocultar').attr('checked', options["ocultar"])
-      // $('#oscurecer').attr('checked', options["oscurecer"])
-    }
-    else{
-      //$('#ocultar').bootstrapToggle("off")
-      //$('#oscurecer').bootstrapToggle("on")
-      $('#ocultar').attr('checked', true)
-      // $('#oscurecer').attr('checked', true)
-      options["ocultar"] = true
-      // options["oscurecer"] = true
-      save_options()
-    }
-    if (data.banwords !== undefined){
-      banwords = data["banwords"]
-    }
-    if(data.banusers !== undefined){
-      banusers = data["banusers"]
-    }
-
-    //DEPRECATED: Borrar codigo, util cuando utilizabamos textarea en vez de materialtags
-    //$("#lista").val(banwords.join(", ").replace(/[\\]/g,''));
-    // $("#lista2").val(banusers.join(", ").replace(/[\\]/g,''));
-
-    $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
-    $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
-  });
-  /*********************Seleccionar foros*********************/
   $('.foro').on('click', function(e){
     id = $(this).attr('id')
-    pos = $.inArray(id, foros_usados)
+    pos = $.inArray(id, filtrar["options"]["foros_usados"])
     if (pos === -1){
       add_button_foro(id)
-      foros_usados.push(id)
+      filtrar["options"]["foros_usados"].push(id)
     }
-    console.log(foros_usados)
+    console.log(filtrar["options"]["foros_usados"])
+    //filtrar["foros_usados"] = foros_usados
+    save_options()
   })
 
   function add_button_foro(id){
@@ -110,22 +168,31 @@ $(document).ready(function() {
   $(document).on('click', '.btn-foro',  function(e){
     id = $(this).attr('id')
     console.log(id)
+
+    $('.btn-foro').removeClass('active').addClass('inactive');
+    $(this).removeClass('inactive').addClass('active');
+    if (tags_words == false){
+      $('#mostrar').trigger('click')
+    }
+    if (tags_users == false){
+      $('#mostrar2').trigger('click')
+    }
     $('#lista').materialtags('removeAll');
     $('#lista2').materialtags('removeAll');
-    if (id==2){
-      $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
-      $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
-    }
+    get_db(id)
+
   })
 
   $(document).on('click', '.close',  function(e){
     id = $(this).closest('a').attr('id');
-    pos = $.inArray(id, foros_usados)
+    pos = $.inArray(id, filtrar["options"]["foros_usados"])
     if (pos != -1){
-      foros_usados.splice(pos, 1 );
+      filtrar["options"]["foros_usados"].splice(pos, 1 );
       boton = $(this).closest("div").remove()
     }
-    console.log(foros_usados)
+    //filtrar["foros_usados"] = foros_usados
+    save_options()
+    console.log(filtrar["options"]["foros_usados"])
   })
 
   /*********************Fin seleccionar foros*********************/
@@ -182,24 +249,31 @@ $(document).ready(function() {
   }
   /*********************Fin mostrar etiquetas o texto plano*********************/
 
+
   $('form').on('submit', function(e) {
     e.preventDefault();
+    var foro = $('#sel_foro .active').attr('id')
+    console.log(foro)
     form = $(this).attr('id')
     button = $("button",this)
     //DEPRECATED: Borrar codigo, util cuando utilizabamos textarea en vez de materialtags
     // textarea = $("textarea", this)
     mtags = $("."+form, this)
     string_palabras = mtags.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
-    console.log(string_palabras)
+    // console.log(string_palabras)
     string_palabras = escapeRegExp(string_palabras)
-    console.log(string_palabras)
+    // console.log(string_palabras)
     string_palabras = string_palabras.split("\,")
     if (string_palabras[string_palabras.length-1] == ""){
       string_palabras.splice(string_palabras.length-1, 1 );
     }
-    console.log(string_palabras)
+    // console.log(string_palabras)
     var datatosync = {}
-    datatosync[form] = string_palabras
+    datatosync["filtrar"] = filtrar
+    // datatosync["filtrar"][foro] = {}
+    // datatosync["filtrar"][foro]["ocultar"] = {}
+    datatosync["filtrar"][foro]["ocultar"][form] = string_palabras
+    console.log(datatosync)
     chrome.storage.sync.set(datatosync, function() {
       // Notify that we saved.
       console.log("Guardado correctamente")
@@ -210,48 +284,51 @@ $(document).ready(function() {
     });
   });
 
+  var options = {}
+  $(function() {
+    $('#ocultar').change(function() {
+      console.log("ocultar")
+      if ($(this).prop('checked')){
+        //$('#oscurecer').bootstrapToggle('off')
+        options["ocultar"] = true
+      }
+      else{
+        options["ocultar"] = false
+      }
+      save_options()
+    })
+    // $('#oscurecer').change(function() {
+    //   console.log("oscurecer")
+    //   if ($(this).prop('checked')){
+    //     //$('#ocultar').bootstrapToggle('off')
+    //     options["oscurecer"] = true
+    //   }
+    //   else{
+    //     options["oscurecer"] = false
+    //   }
+    //   save_options()
+    // })
+  })
+
+  function save_options(){
+    console.log("guardando opciones")
+    var datatosync = {}
+    console.log(options)
+    datatosync["options"] = options
+    datatosync["filtrar"] = filtrar
+    console.log(datatosync)
+    chrome.storage.sync.set(datatosync, function() {
+
+      // Notify that we saved.
+      console.log("Guardado correctamente")
+    });
+
+  }
+
 });
 
 function escapeRegExp(text) {
   return text.replace(/[-[\]{}()*+?.\\^$|#\s]/g, '\\$&');
-}
-
-var options = {}
-$(function() {
-  $('#ocultar').change(function() {
-    console.log("ocultar")
-    if ($(this).prop('checked')){
-      //$('#oscurecer').bootstrapToggle('off')
-      options["ocultar"] = true
-    }
-    else{
-      options["ocultar"] = false
-    }
-    save_options()
-  })
-  // $('#oscurecer').change(function() {
-  //   console.log("oscurecer")
-  //   if ($(this).prop('checked')){
-  //     //$('#ocultar').bootstrapToggle('off')
-  //     options["oscurecer"] = true
-  //   }
-  //   else{
-  //     options["oscurecer"] = false
-  //   }
-  //   save_options()
-  // })
-})
-
-function save_options(){
-  console.log("guardando opciones")
-  var datatosync = {}
-  console.log(options)
-  datatosync["options"] = options
-  chrome.storage.sync.set(datatosync, function() {
-    // Notify that we saved.
-    console.log("Guardado correctamente")
-  });
-
 }
 
 $(function() {
