@@ -6,7 +6,8 @@
 	"description": "Bloquea los hilos que te salgan del forro. Añade las palabras que quieras bloquear e ya.",
 	"version": "0.1.0",
 	"permissions": [
-		"storage"
+		"storage",
+		"activeTab"
 	],
 	"icons": {
 		"16": "img/icon.png",
