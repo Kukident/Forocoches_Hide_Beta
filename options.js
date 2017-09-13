@@ -58,6 +58,7 @@ $(document).ready(function() {
     }
     console.log(filtrar["options"]["foros_usados"])
     save_options()
+    $("#"+id).click()
   })
 
   function add_button_foro(id){
@@ -86,6 +87,11 @@ $(document).ready(function() {
   })
 
   $(document).on('click', '.close',  function(e){
+    // Cancelamos la propagacion del evento, para que no se extienda a la funcion superior.
+    if (!e) var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+
     id = $(this).closest('a').attr('id');
     pos = $.inArray(id, filtrar["options"]["foros_usados"])
     if (pos != -1){
@@ -93,6 +99,7 @@ $(document).ready(function() {
       boton = $(this).closest("div").remove()
     }
     save_options()
+    $('#2').trigger('click')
     console.log(filtrar["options"]["foros_usados"])
   })
 
