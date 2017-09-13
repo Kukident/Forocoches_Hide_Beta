@@ -1,8 +1,3 @@
-// $("#threadbits_forum_2").children().each(function(){
-// console.log("huehuehue")
-// console.log($(this).children() > $("[id^=thread_title_]"))
-// });
-
 //DEPRECATED: Borrar codigo, Solo funciona en el general
 // $("#collapseobj_st_2").before('<tbody id="collapseobj_st_3"> \
 // </tbody> \
@@ -10,34 +5,20 @@
 
 var palabras = []
 var users = []
+var ocultar = false
 var hilos_ocultados = 0;
-var id_foro = GetURLParameter('f');
+var id_foro = GetURLParameter(window.location, 'f');
 
 chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(data) {
   console.log(data)
-  if (Object.keys(data).length == 0){
-    options = false
-  }
-  else{
-    options = data["options"]
-  }
 
-  // if (data.banwords !== undefined){
-  //   palabras = data["banwords"]
-  // }
-  // if(data.banusers !== undefined){
-  //   users = data["banusers"]
-  // }
+  filtrar = parse_data(data, id_foro)
+  console.log(filtrar)
+      palabras = filtrar[id_foro]["ocultar"]["banwords"]
+      users = filtrar[id_foro]["ocultar"]["banusers"]
+      ocultar = filtrar["options"]["active"]
 
-
-    if (data["filtrar"][id_foro]["ocultar"]["banwords"] !== undefined){
-      palabras = data["filtrar"][id_foro]["ocultar"]["banwords"]
-    }
-    if(data["filtrar"][id_foro]["ocultar"]["banusers"] !== undefined){
-      users = data["filtrar"][id_foro]["ocultar"]["banusers"]
-  }
-
-  if (options["ocultar"] == true && $.inArray(id_foro, data["filtrar"]["options"]["foros_usados"]) !== -1){
+  if (ocultar == true && $.inArray(id_foro, filtrar["options"]["foros_usados"]) !== -1){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
     // (?:\s|^)(cadena a comprobar)(?=\s|$)
     var expreg = new RegExp("(?:\\s|^)("+palabras.join(")(?=\\s|$)|(?:\\s|^)(")+")(?=\\s|$)")
@@ -51,14 +32,10 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
       // console.log(expreg)
 
       if (texto.match(expreg) != null || user.match(expreg_users) != null){
-        if (options["ocultar"] == true || options["oscurecer"] == true){
+        if (ocultar == true){
           $(this).closest("tr").css("opacity" ,0.2)
         }
-        //   $(this).closest("tr").hide()
-        // }
-        // else if (options["oscurecer"] == true){
-        //   $(this).closest("tr").css("opacity" ,0.2)
-        // }
+
         $("#collapseobj_st_3").append($(this).closest("tr"))
         hilos_ocultados++
         // console.log(hilos_ocultados)
@@ -68,19 +45,6 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
     $(".cmega2").append("<br><span class='smallfont'>Se han ocultado "+hilos_ocultados+" hilos</span>")
   }
 });
-
-function GetURLParameter(sParam){
-var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam)
-        {
-            return sParameterName[1];
-        }
-    }
-}
 
 //////////////////////Inicio crear interfaz\\\\\\\\\\\\\\\\\\\\\\\\\\\\º
 $("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \

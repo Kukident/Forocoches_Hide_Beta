@@ -1,48 +1,4 @@
-// $(document).ready(function() {
-//     chrome.storage.sync.clear();
-// });
 $(document).ready(function() {
-  var foros = {
-    "2": ["General"],
-    "17": ["Electrónica / Informática"],
-    "82": ["Fotografía", 17],
-    "26": ["Empleo"],
-    "64": ["Taxi", 26],
-    "27": ["Viajes"],
-    "15": ["Quedadas (KDD)"],
-    "4": ["ForoCoches"],
-    "18": ["Competición"],
-    "20": ["Clásicos"],
-    "65": ["Compra - Venta Clasicos", 20],
-    "47": ["Monovolumentes"],
-    "21": ["4x4 / Ocio"],
-    "79": ["Compra - Venta 4x4 / Ocio", 21],
-    "28": ["Modelismo"],
-    "70": ["Compra - Venta Modelismo", 28],
-    "76": ["Camiones / Furgones / Autobuses"],
-    "48": ["Motos"],
-    "80": ["Compra - Venta Motos", 48],
-    "19": ["Mecánica"],
-    "5": ["Car-Audio"],
-    "31": ["Seguros"],
-    "87": ["Promos Seguros", 31],
-    "30": ["Tráfico / Radares"],
-    "6": ["Tuning"],
-    "16": ["Juegos de Coches"],
-    "43": ["Juegos Online"],
-    "85": ["Plan PIVE"],
-    "34": ["Compra - Venta Profesional"],
-    "11": ["Compra - Venta Motor"],
-    "25": ["Compra - Venta Audio / Tuning"],
-    "22": ["Compra - Venta Electrónica"],
-    "69": ["Compra - Venta General"],
-    "12": ["Info / Ayuda"],
-    "8": ["Ayuda"]
-  }
-  // var dropdown_content = '<li><a>'Dropdown link'</a></li>'
-  // $(".dropdown-menu").html("huehue")
-  //var foros_usados = []
-
   $.material.init();
   get_db("2", true)
   var filtrar = []
@@ -53,89 +9,36 @@ $(document).ready(function() {
       console.log(data)
       var banwords = []
       var banusers = []
-      if (data.options !== undefined){
-        options = data["options"]
-        console.log(options)
-        //$('#ocultar').bootstrapToggle(options["ocultar"])
-        //$('#oscurecer').bootstrapToggle(options["oscurecer"])
-        $('#ocultar').attr('checked', options["ocultar"])
-        // $('#oscurecer').attr('checked', options["oscurecer"])
-      }
-      else{
-        //$('#ocultar').bootstrapToggle("off")
-        //$('#oscurecer').bootstrapToggle("on")
-        $('#ocultar').attr('checked', true)
-        // $('#oscurecer').attr('checked', true)
-        options["ocultar"] = true
-        // options["oscurecer"] = true
-        save_options()
-      }
-      // if (data.banwords !== undefined){
-      //   banwords = data["banwords"]
-      // }
-      // if(data.banusers !== undefined){
-      //   banusers = data["banusers"]
-      // }
-      if (data['filtrar'] !== undefined){
-        filtrar = data['filtrar']
 
-        if (data['filtrar']["options"] == undefined){
-          filtrar["options"] = {}
-        }
+      filtrar = parse_data(data, foro)
+      console.log(filtrar)
+      banwords = filtrar[foro]["ocultar"]["banwords"]
+      banusers = filtrar[foro]["ocultar"]["banusers"]
 
-        if (data['filtrar'][foro] == undefined){
-          filtrar[foro] = {}
-          filtrar[foro]["ocultar"] = {}
-          filtrar[foro]["ocultar"]["banwords"] = []
-          filtrar[foro]["ocultar"]["banusers"] = []
-        }
-        else {
-          if (data['filtrar'][foro]["ocultar"] == undefined){
-            filtrar[foro]["ocultar"] = {}
-            filtrar[foro]["ocultar"]["banwords"] = []
-            filtrar[foro]["ocultar"]["banusers"] = []
-          }
-          else{
-
-            if (data['filtrar'][foro]["ocultar"]["banwords"] !== undefined){
-              banwords = data['filtrar'][foro]["ocultar"]["banwords"]
-            }
-            else{
-              filtrar[foro]["ocultar"]["banwords"] = banwords
-            }
-            if(data['filtrar'][foro]["ocultar"]["banusers"] !== undefined){
-              banusers = data['filtrar'][foro]["ocultar"]["banusers"]
-            }
-            else{
-              filtrar[foro]["ocultar"]["banusers"] = banusers
-            }
-          }
-        }
-      }
-      else{
-        filtrar[foro] = {}
-        filtrar[foro]["ocultar"] = {}
-        filtrar[foro]["ocultar"]["banwords"] = []
-        filtrar[foro]["ocultar"]["banusers"] = []
-        filtrar["options"] = {}
-      }
-
+      $('#ocultar').attr('checked', filtrar["options"]["active"])
 
       //DEPRECATED: Borrar codigo, util cuando utilizabamos textarea en vez de materialtags
       //$("#lista").val(banwords.join(", ").replace(/[\\]/g,''));
       // $("#lista2").val(banusers.join(", ").replace(/[\\]/g,''));
-      if (filtrar["options"]["foros_usados"] == undefined){
-        filtrar["options"]["foros_usados"] = ['2']
-      }
+
       if (options2){
+        console.log(filtrar)
         filtrar["options"]["foros_usados"].forEach(function(id){
-          add_button_foro(id)
+          if (id !== "2"){
+            add_button_foro(id)
+          }
         })
       }
       $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
       $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
     });
   }
+
+  $('#borrar').on('click', function(e){
+        chrome.storage.sync.clear();
+        console.log("Borrar BD")
+  })
+
   /*********************Seleccionar foros*********************/
 
 
@@ -154,7 +57,6 @@ $(document).ready(function() {
       filtrar["options"]["foros_usados"].push(id)
     }
     console.log(filtrar["options"]["foros_usados"])
-    //filtrar["foros_usados"] = foros_usados
     save_options()
   })
 
@@ -190,7 +92,6 @@ $(document).ready(function() {
       filtrar["options"]["foros_usados"].splice(pos, 1 );
       boton = $(this).closest("div").remove()
     }
-    //filtrar["foros_usados"] = foros_usados
     save_options()
     console.log(filtrar["options"]["foros_usados"])
   })
@@ -270,9 +171,8 @@ $(document).ready(function() {
     // console.log(string_palabras)
     var datatosync = {}
     datatosync["filtrar"] = filtrar
-    // datatosync["filtrar"][foro] = {}
-    // datatosync["filtrar"][foro]["ocultar"] = {}
     datatosync["filtrar"][foro]["ocultar"][form] = string_palabras
+    console.log("Guardamos estos datos en la BD")
     console.log(datatosync)
     chrome.storage.sync.set(datatosync, function() {
       // Notify that we saved.
@@ -284,37 +184,22 @@ $(document).ready(function() {
     });
   });
 
-  var options = {}
   $(function() {
     $('#ocultar').change(function() {
       console.log("ocultar")
       if ($(this).prop('checked')){
-        //$('#oscurecer').bootstrapToggle('off')
-        options["ocultar"] = true
+        filtrar["options"]["active"] = true
       }
       else{
-        options["ocultar"] = false
+        filtrar["options"]["active"] = false
       }
       save_options()
     })
-    // $('#oscurecer').change(function() {
-    //   console.log("oscurecer")
-    //   if ($(this).prop('checked')){
-    //     //$('#ocultar').bootstrapToggle('off')
-    //     options["oscurecer"] = true
-    //   }
-    //   else{
-    //     options["oscurecer"] = false
-    //   }
-    //   save_options()
-    // })
   })
 
   function save_options(){
     console.log("guardando opciones")
     var datatosync = {}
-    console.log(options)
-    datatosync["options"] = options
     datatosync["filtrar"] = filtrar
     console.log(datatosync)
     chrome.storage.sync.set(datatosync, function() {

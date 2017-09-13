@@ -25,7 +25,7 @@
 	"content_scripts": [
     {
       "matches": ["http://www.forocoches.com/foro/forumdisplay.php?f=*","https://www.forocoches.com/foro/forumdisplay.php?f=*"],
-      "js": ["js/jquery-3.2.1.js", "js/myscript.js"],
+      "js": ["js/jquery-3.2.1.js", "utils.js", "js/myscript.js"],
 	   "run_at": "document_end"
     }
   ]
