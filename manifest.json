@@ -4,7 +4,7 @@
     "short_name" : "FC Hide BETA",
 		"options_page": "options.html",
 	"description": "Bloquea los hilos que te salgan del forro. Añade las palabras que quieras bloquear e ya.",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"permissions": [
 		"storage",
 		"activeTab"
@@ -28,5 +28,9 @@
       "js": ["js/jquery-3.2.1.js", "utils.js", "js/myscript.js"],
 	   "run_at": "document_end"
     }
-  ]
+  ],
+	"background": {
+	 "scripts": ["eventPage.js"],
+	 "persistent": false
+ }
 }

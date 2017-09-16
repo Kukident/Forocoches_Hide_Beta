@@ -14,9 +14,9 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
 
   filtrar = parse_data(data, id_foro)
   console.log(filtrar)
-      palabras = filtrar[id_foro]["ocultar"]["banwords"]
-      users = filtrar[id_foro]["ocultar"]["banusers"]
-      ocultar = filtrar["options"]["active"]
+  palabras = filtrar[id_foro]["ocultar"]["banwords"]
+  users = filtrar[id_foro]["ocultar"]["banusers"]
+  ocultar = filtrar["options"]["active"]
 
   if (ocultar == true && $.inArray(id_foro, filtrar["options"]["foros_usados"]) !== -1){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
@@ -43,8 +43,15 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
     });
     $("#collapseobj_st_3").append('<tr><td class="thead" colspan="6">&nbsp;</td></tr>')
     $(".cmega2").append("<br><span class='smallfont'>Se han ocultado "+hilos_ocultados+" hilos</span>")
+
+    // TODO Añade el numero de hilos al icono de la extension
+    // chrome.runtime.sendMessage({hilos: hilos_ocultados.toString()}, function(response) {
+    //   console.log(response);
+    // });
+
   }
 });
+
 
 //////////////////////Inicio crear interfaz\\\\\\\\\\\\\\\\\\\\\\\\\\\\º
 $("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \
