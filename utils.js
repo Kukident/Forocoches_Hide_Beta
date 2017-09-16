@@ -5,6 +5,8 @@ function parse_data(data, foro){
 
     if (data['filtrar']["options"] == undefined){
       filtrar["options"] = {}
+      filtrar["options"]["foros_usados"] = ['2']
+      filtrar["options"]["active"] = true
     }
     else{
       if (filtrar["options"]["foros_usados"] == undefined){

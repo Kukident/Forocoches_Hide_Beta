@@ -14,6 +14,7 @@ chrome.runtime.onInstalled.addListener(function(details){
         console.log(banusers)
         if (banwords !== undefined || banusers !== undefined){
           var datatosync = {}
+          var filtrar = {}
           filtrar["2"] = {}
           filtrar["2"]["ocultar"] = {}
           filtrar["2"]["ocultar"]["banwords"] = banwords
