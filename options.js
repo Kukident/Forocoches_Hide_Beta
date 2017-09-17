@@ -6,12 +6,12 @@ $(document).ready(function() {
 
   function get_db(foro, options2=false){
     chrome.storage.sync.get(['banwords', 'banusers', 'filtrar', 'options'], function(data) {
-      console.log(data)
+      // console.log(data)
       var banwords = []
       var banusers = []
 
       filtrar = parse_data(data, foro)
-      console.log(filtrar)
+      // console.log(filtrar)
       banwords = filtrar[foro]["ocultar"]["banwords"]
       banusers = filtrar[foro]["ocultar"]["banusers"]
 
@@ -22,7 +22,6 @@ $(document).ready(function() {
       // $("#lista2").val(banusers.join(", ").replace(/[\\]/g,''));
 
       if (options2){
-        console.log(filtrar)
         filtrar["options"]["foros_usados"].forEach(function(id){
           if (id !== "2"){
             add_button_foro(id)
@@ -35,8 +34,8 @@ $(document).ready(function() {
   }
 
   $('#borrar').on('click', function(e){
-        chrome.storage.sync.clear();
-        console.log("Borrar BD")
+    chrome.storage.sync.clear();
+    console.log("Borrar BD")
   })
 
   /*********************Seleccionar foros*********************/
@@ -49,6 +48,7 @@ $(document).ready(function() {
     $(".dropdown-menu").append('<li class="foro" id="' + key + '"><a>'+ foros[key][0] +'</a></li>')
 
   }
+
   $('.foro').on('click', function(e){
     id = $(this).attr('id')
     pos = $.inArray(id, filtrar["options"]["foros_usados"])
@@ -56,7 +56,7 @@ $(document).ready(function() {
       add_button_foro(id)
       filtrar["options"]["foros_usados"].push(id)
     }
-    console.log(filtrar["options"]["foros_usados"])
+    //console.log(filtrar["options"]["foros_usados"])
     save_options()
     $("#"+id).click()
   })
@@ -70,7 +70,6 @@ $(document).ready(function() {
 
   $(document).on('click', '.btn-foro',  function(e){
     id = $(this).attr('id')
-    console.log(id)
 
     $('.btn-foro').removeClass('active').addClass('inactive');
     $(this).removeClass('inactive').addClass('active');
@@ -100,7 +99,6 @@ $(document).ready(function() {
     }
     save_options()
     $('#2').trigger('click')
-    console.log(filtrar["options"]["foros_usados"])
   })
 
   /*********************Fin seleccionar foros*********************/
@@ -149,7 +147,6 @@ $(document).ready(function() {
   function mostrar_tags(element){
     var $txtarea = $('<input type="text" />');
     $txtarea.attr("id", element.attr('id'));
-    console.log(element.attr('id'))
     $txtarea.attr("class", element.attr('class'));
     $txtarea.attr("rows", 6);
     $txtarea.val(element.val());
@@ -168,19 +165,17 @@ $(document).ready(function() {
     // textarea = $("textarea", this)
     mtags = $("."+form, this)
     string_palabras = mtags.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
-    // console.log(string_palabras)
     string_palabras = escapeRegExp(string_palabras)
-    // console.log(string_palabras)
     string_palabras = string_palabras.split("\,")
     if (string_palabras[string_palabras.length-1] == ""){
       string_palabras.splice(string_palabras.length-1, 1 );
     }
-    // console.log(string_palabras)
+
     var datatosync = {}
     datatosync["filtrar"] = filtrar
     datatosync["filtrar"][foro]["ocultar"][form] = string_palabras
-    console.log("Guardamos estos datos en la BD")
-    console.log(datatosync)
+    // console.log("Guardamos estos datos en la BD")
+    // console.log(datatosync)
     chrome.storage.sync.set(datatosync, function() {
       // Notify that we saved.
       console.log("Guardado correctamente")
@@ -193,7 +188,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#ocultar').change(function() {
-      console.log("ocultar")
       if ($(this).prop('checked')){
         filtrar["options"]["active"] = true
       }
@@ -205,12 +199,9 @@ $(document).ready(function() {
   })
 
   function save_options(){
-    console.log("guardando opciones")
     var datatosync = {}
     datatosync["filtrar"] = filtrar
-    console.log(datatosync)
     chrome.storage.sync.set(datatosync, function() {
-
       // Notify that we saved.
       console.log("Guardado correctamente")
     });
@@ -218,10 +209,6 @@ $(document).ready(function() {
   }
 
 });
-
-function escapeRegExp(text) {
-  return text.replace(/[-[\]{}()*+?.\\^$|#\s]/g, '\\$&');
-}
 
 $(function() {
   $("#ejemplo1").on('click', function(e) {

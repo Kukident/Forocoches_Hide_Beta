@@ -1,8 +1,3 @@
-//DEPRECATED: Borrar codigo, Solo funciona en el general
-// $("#collapseobj_st_2").before('<tbody id="collapseobj_st_3"> \
-// </tbody> \
-// ')
-
 var palabras = []
 var users = []
 var ocultar = false
@@ -10,14 +5,13 @@ var hilos_ocultados = 0;
 var id_foro = GetURLParameter(window.location, 'f');
 
 chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(data) {
-  console.log(data)
-
+  // console.log(data)
   filtrar = parse_data(data, id_foro)
-  console.log(filtrar)
+  // console.log(filtrar)
   palabras = filtrar[id_foro]["ocultar"]["banwords"]
   users = filtrar[id_foro]["ocultar"]["banusers"]
   ocultar = filtrar["options"]["active"]
-
+  
   if (ocultar == true && $.inArray(id_foro, filtrar["options"]["foros_usados"]) !== -1){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
     // (?:\s|^)(cadena a comprobar)(?=\s|$)
@@ -33,12 +27,9 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
     }
 
     $("[id^=thread_title_]").each(function(){
-      // console.log($(this).text())
       var texto = $(this).text().trim().toLowerCase()
-      //console.log($(this).parent().next().text().trim())
       var user = $(this).parent().next().text().trim().toLowerCase()
-      // console.log(palabras)
-      // console.log(expreg)
+      // console.log(texto)
 
       if (texto.match(expreg) != null || user.match(expreg_users) != null){
         if (ocultar == true){
@@ -66,7 +57,7 @@ $("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \
 </tbody> \
 ')
 //TODO: Optimizar codigo
-console.log($("#stickies_collapse"))
+//console.log($("#stickies_collapse"))
 if ($("#stickies_collapse").length){
   $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
   <a href=""> \

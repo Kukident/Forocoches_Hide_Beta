@@ -1,7 +1,3 @@
-// $(document).ready(function() {
-//     chrome.storage.sync.clear();
-// });
-
 $(document).ready(function() {
   var url = ""
   var foro = ""
@@ -10,8 +6,6 @@ $(document).ready(function() {
   chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
     url = tabs[0].url
     foro = GetURLParameter(url, 'f')
-    console.log(tabs[0].url);
-    console.log(foro)
     if (url.indexOf("forocoches.com") !== -1 && foro !== undefined){
       $("#filtrado").prepend("<div class='row text-center'>" + foros[foro] + "<div>")
     }
@@ -34,14 +28,11 @@ $(document).ready(function() {
       button = $("button",this)
       textarea = $("input", this)
       string_palabras = textarea.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
-      console.log(string_palabras)
       string_palabras = escapeRegExp(string_palabras)
-      console.log(string_palabras)
       string_palabras = string_palabras.split("\,")
       if (string_palabras[string_palabras.length-1] == ""){
         string_palabras.splice(string_palabras.length-1, 1 );
       }
-      console.log(string_palabras)
 
       filtrar = parse_data(data, foro)
       filtrar[foro]["ocultar"][form] = filtrar[foro]["ocultar"][form].concat(string_palabras)
