@@ -3,7 +3,7 @@
     "name": "ForoCoches Hide BETA",
     "short_name" : "FC Hide BETA",
 		"options_page": "options.html",
-	"description": "Bloquea los hilos que te salgan del forro. Añade las palabras que quieras bloquear e ya.",
+	"description": "Bloquea los hilos que no te interesen de cualquier subforo de Forocoches.",
 	"version": "1.0.0",
 	"permissions": [
 		"storage",
