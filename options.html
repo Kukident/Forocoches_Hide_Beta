@@ -9,15 +9,23 @@
 
   <!-- Cascading Style Sheets -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
- <link href="css/bootstrap-material-design.min.css" rel="stylesheet">
+  <link href="css/bootstrap-material-design.min.css" rel="stylesheet">
   <link href="css/ripples.min.css" rel="stylesheet">
+  <link href="css/materialize-tags.css" rel="stylesheet">
+  <link href="css/material-icons.css" rel="stylesheet">
+  <link href="css/custom0.css" rel="stylesheet">
+
+
 
   <!-- Scripts -->
   <script src="js/jquery-1.10.2.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/material.js"></script>
   <script src="js/ripples.min.js"></script>
+  <script src="js/materialize-tags.js"></script>
+  <script src="js/typeahead.js"></script>
   <script src="options.js"></script>
+  <script src="utils.js"></script>
 </head>
 
 <body>
@@ -33,99 +41,99 @@
       </div>
       <div class="navbar-collapse collapse navbar-responsive-collapse">
         <!-- <ul class="nav navbar-nav">
-          <li class="active"><a href="#options" data-toggle="tab">Active</a></li>
-          <li><a href="#blacklist" data-toggle="tab">Link</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="http://github.com">Github</a></li>
-        </ul> -->
-      </div>
+        <li class="active"><a href="#options" data-toggle="tab">Active</a></li>
+        <li><a href="#blacklist" data-toggle="tab">Link</a></li>
+      </ul> -->
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com/Kukident/Forocoches_Hide_Beta">Github</a></li>
+      </ul>
     </div>
   </div>
+</div>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="options">
-      <div class="col-md-4">
-        <div class="col-lg-12">
-        <div class="well well-lg">
-          <div class="row row2">
-            <span style="margin-left: 25%">Ocultar hilos:</span>
-            <span style="margin-right: 25%; float: right">
-              <div class="togglebutton">
-                <label>
-                  <input id="ocultar" type="checkbox">
-                </label>
-              </div>
-            </span>
-          </div>
-          <!-- <div class="row row2">
-            <span style="margin-left: 25%">Oscurecer hilos:</span>
-            <span style="margin-right: 25%; float: right">
-              <div class="togglebutton">
-                <label>
-                  <input id="oscurecer" type="checkbox">
-                </label>
-              </div>
-            </span>
-          </div> -->
-        </div>
+<!-- Tab panes -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="options">
+    <div class="col-md-4">
+      <div class="col-lg-12 well well-lg">
+        <!-- <div class="well well-lg"> -->
+        <div class="row row2">
+          <span style="margin-left: 25%">Ocultar hilos:</span>
+          <span style="margin-right: 25%; float: right">
+            <div class="togglebutton">
+              <label>
+                <input id="ocultar" type="checkbox">
+              </label>
+            </div>
+          </span>
+          <!-- <div class="col-lg-12">
+          <a id="borrar" class="btn btn-raised btn-block btn-primary">Borrar BD</a>
+        </div> -->
       </div>
+    </div>
 
-        <!-- <div class="col-lg-12">
-        <div class="well well-lg">
-          Ayuda:
-          <ul>
-            <li>
-              No distingue entre mayusculas y minusculas
-            </li>
-          </ul>
-        </div>
-      </div> -->
+    <div id="sel_foro" class="col-lg-12 well well-lg">
+      <!-- <div class="well well-lg"> -->
+      <div class="col-lg-12">
+        <a id="2" class="btn btn-raised btn-block btn-primary btn-foro active">General</a>
+      </div>
+      <div id="boton_end"class="col-lg-12">
+        <a class="btn btn-raised btn-block dropdown-toggle" data-toggle="dropdown">Añadir más foros
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
 
-      <div class="modal" id="modalayuda">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body">
-              <p>One fine body…</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
+        </ul>
+      </div>
+      <!-- </div> -->
+    </div>
+
+    <div class="modal" id="modalayuda">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body…</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
           </div>
         </div>
       </div>
+    </div>
 
 
 
-      </div>
-        <div class="col-md-8">
-          <div class="well well-lg">
-            <span>Ocultar hilos por palabras</span>
-          <form id="banwords">
-            <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea>
-            <p class="help-block">Usa la <code>,</code>para ocultar multiples hilos. No distingue entre mayusculas y minusculas. <a data-toggle="modal" href="#modalayuda"><code id="ejemplo1">Ejemplo de uso</code></a></p>
-            <button type="submit" id="guardar_palabras" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
-          </form>
-        </div>
+  </div>
+  <div class="col-md-8">
+    <div class="well well-lg">
+      <span>Ocultar hilos por palabras</span>
+      <button id="mostrar" class="btn btn-tags btn-sm">Mostrar texto plano</button>
+      <form id="banwords">
+        <!-- <textarea placeholder="Palabras separadas por comas" id="lista" class="form-control" rows="6"></textarea> -->
+        <input type="text" class="banwords" id="lista" data-role="materialtags"></input>
+        <p class="help-block">Usa la <code>,</code>para ocultar multiples hilos. No distingue entre mayusculas y minusculas. <a data-toggle="modal" href="#modalayuda"><code id="ejemplo1">Ejemplo de uso</code></a></p>
+        <button type="submit" id="guardar_palabras" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
+      </form>
+    </div>
 
-        <div class="well well-lg">
-          <span>Ocultar hilos por usuario</span>
-        <form id="banusers">
-          <textarea placeholder="Nombre de usuarios separados por comas" id="lista2" class="form-control" rows="6"></textarea>
-          <p class="help-block">Usa la <code>,</code>para ocultar multiples usuarios. No distingue entre mayusculas y minusculas.  <a data-toggle="modal" href="#modalayuda"><code id="ejemplo2">Ejemplo de uso</code></a></p></p>
-          <button type="submit" id="guardar_usuarios" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
-        </form>
-        </div>
+    <div class="well well-lg">
+      <span>Ocultar hilos por usuario</span>
+      <button id="mostrar2" class="btn btn-tags btn-sm">Mostrar texto plano</button>
+      <form id="banusers">
+        <input type="text" class="banusers" id="lista2" data-role="materialtags"></input>
+        <p class="help-block">Usa la <code>,</code>para ocultar multiples usuarios. No distingue entre mayusculas y minusculas.  <a data-toggle="modal" href="#modalayuda"><code id="ejemplo2">Ejemplo de uso</code></a></p></p>
+        <button type="submit" id="guardar_usuarios" class="btn btn-primary btn-block" style="margin-top: 10px">Guardar</button>
+      </form>
+    </div>
 
-      </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="ayuda">afasfasdfasdf</div>
-      </div>
-    </body>
-    </html>
+  </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="ayuda">afasfasdfasdf</div>
+</div>
+</body>
+</html>

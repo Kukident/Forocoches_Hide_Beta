@@ -1,37 +1,50 @@
-// // $(document).ready(function() {
-// //     chrome.storage.sync.clear();
-// // });
-
 $(document).ready(function() {
+  var url = ""
+  var foro = ""
   $.material.init();
+
+  chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
+    url = tabs[0].url
+    foro = GetURLParameter(url, 'f')
+    if (url.indexOf("forocoches.com") !== -1 && foro !== undefined){
+      $("#filtrado").prepend("<div class='row text-center'>" + foros[foro] + "<div>")
+    }
+    else{
+      $("#filtrado :input").attr("disabled", true);
+      $("#filtrado").prepend("<div class='row text-center text-danger'>Actualmente no te encuentras en ningún foro<div>")
+    }
+  });
+
   $('#options').click(function(){
     chrome.tabs.create({url: "options.html"});
     return false;
   });
-})
 
-$(document).ready(function() {
-  chrome.storage.sync.get(['banwords', 'banusers'], function(data) {
+
+  chrome.storage.sync.get(['banwords', 'banusers', 'filtrar'], function(data) {
     $('form').on('submit', function(e) {
       e.preventDefault();
       form = $(this).attr('id')
       button = $("button",this)
       textarea = $("input", this)
       string_palabras = textarea.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
-      console.log(string_palabras)
       string_palabras = escapeRegExp(string_palabras)
-      console.log(string_palabras)
       string_palabras = string_palabras.split("\,")
       if (string_palabras[string_palabras.length-1] == ""){
         string_palabras.splice(string_palabras.length-1, 1 );
       }
-      console.log(string_palabras)
+
+      filtrar = parse_data(data, foro)
+      filtrar[foro]["ocultar"][form] = filtrar[foro]["ocultar"][form].concat(string_palabras)
+      //Al guardar desde el popup activamos el foro
+      pos = $.inArray(foro, filtrar["options"]["foros_usados"])
+      if (pos === -1){
+        filtrar["options"]["foros_usados"].push(foro)
+      }
+
       var datatosync = {}
-      if(data[form] !== undefined){
-        datatosync[form] = data[form].concat(string_palabras)
-        } else{
-      datatosync[form] = string_palabras
-    }
+      datatosync["filtrar"] = filtrar
+
       chrome.storage.sync.set(datatosync, function() {
         // Notify that we saved.
         console.log("Guardado correctamente")
@@ -43,7 +56,3 @@ $(document).ready(function() {
     });
   });
 });
-
-function escapeRegExp(text) {
-  return text.replace(/[-[\]{}()*+?.\\^$|#\s]/g, '\\$&');
-}

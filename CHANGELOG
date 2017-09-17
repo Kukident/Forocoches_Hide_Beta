@@ -1,0 +1,12 @@
+CHANGELOG
+=========
+
+## 1.0.0 - (2017-09-17)
+* Añadido Materialize Tags para lista de palabras a bloquear.
+* Añadidos todos los subforos, con listas independientes para cada uno.
+* Arreglados errores menores.
+
+## 0.1.0 - (2017-07-20)
+* Posibilidad de ocultar hilos en el subforo general, tanto por usuario como por palabras clave.
+* Añadido widget para añadir de forma rápida las palabras clave.
+* Actualización de la interfaz.
