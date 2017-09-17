@@ -21,8 +21,17 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
   if (ocultar == true && $.inArray(id_foro, filtrar["options"]["foros_usados"]) !== -1){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
     // (?:\s|^)(cadena a comprobar)(?=\s|$)
-    var expreg = new RegExp("(?:\\s|^)("+palabras.join(")(?=\\s|$)|(?:\\s|^)(")+")(?=\\s|$)")
-    var expreg_users = new RegExp("(?:\\s|^)("+users.join(")(?=\\s|$)|(?:\\s|^)(")+")(?=\\s|$)")
+
+    // Creamos las variables con una expresion regular por defecto, ya que si no a veces ocultaba hilos debido a espacios ocultos
+    var expreg = new RegExp("^((?!()).)*$")
+    var expreg_users = new RegExp("^((?!()).)*$")
+    if (palabras.length !== 0){
+      expreg = new RegExp("(?:\\s|^)("+palabras.join(")(?=\\s|$)|(?:\\s|^)(")+")(?=\\s|$)")
+    }
+    if (users.length !== 0){
+      expreg_users = new RegExp("(?:\\s|^)("+users.join(")(?=\\s|$)|(?:\\s|^)(")+")(?=\\s|$)")
+    }
+
     $("[id^=thread_title_]").each(function(){
       // console.log($(this).text())
       var texto = $(this).text().trim().toLowerCase()
@@ -38,7 +47,6 @@ chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(
 
         $("#collapseobj_st_3").append($(this).closest("tr"))
         hilos_ocultados++
-        // console.log(hilos_ocultados)
       }
     });
     $("#collapseobj_st_3").append('<tr><td class="thead" colspan="6">&nbsp;</td></tr>')
