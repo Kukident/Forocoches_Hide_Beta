@@ -7,14 +7,15 @@
 	"version": "1.0.0",
 	"permissions": [
 		"storage",
-		"activeTab"
+		"activeTab",
+		"declarativeContent"
 	],
 	"icons": {
 		"16": "img/icon.png",
 		"48": "img/icon.png",
 		"128": "img/icon.png"
 	},
-	"browser_action": {
+	"page_action": {
 		"default_icon": {
 			"19": "img/icon.png",
 			"38": "img/icon.png"
