@@ -30,6 +30,21 @@ chrome.runtime.onInstalled.addListener(function(details){
   }
 });
 
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+    chrome.declarativeContent.onPageChanged.addRules([
+      {
+        conditions: [
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: '.forocoches' },
+          })
+        ],
+        actions: [ new chrome.declarativeContent.ShowPageAction() ]
+      }
+    ]);
+  });
+});
+
 // TODO Activa o desactiva el icono de la extension fuera de forocoches, necesita el permiso tabs
 // chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 //     var url = info.url || tab.url;
