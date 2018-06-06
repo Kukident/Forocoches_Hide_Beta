@@ -47,10 +47,18 @@ $(document).ready(function() {
 
       chrome.storage.sync.set(datatosync, function() {
         // Notify that we saved.
-        console.log("Guardado correctamente")
-        button.addClass("btn-success btn-raised")
+        let btn_class = ""
+        if(chrome.runtime.lastError){
+          console.log(chrome.runtime.lastError.message)
+          btn_class = "btn-danger"
+        }
+        else{
+          console.log("Guardado correctamente")
+          btn_class = "btn-success"
+        }
+        button.addClass(btn_class + " btn-raised")
         setTimeout(function(){
-          button.removeClass("btn-success btn-raised")
+          button.removeClass(btn_class + " btn-raised")
         }, 1000);
       });
     });
