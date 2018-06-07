@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## Unreleased
+* Añadido soporte para webm
+* Ahora el icono de la extension se deshabilita fuera de ForoCoches
+
 ## 1.0.0 - (2017-09-17)
 * Añadido Materialize Tags para lista de palabras a bloquear.
 * Añadidos todos los subforos, con listas independientes para cada uno.
