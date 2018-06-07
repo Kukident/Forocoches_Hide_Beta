@@ -21,21 +21,22 @@ $(document).ready(function() {
   });
 
 
-  chrome.storage.sync.get(['banwords', 'banusers', 'filtrar'], function(data) {
-    $('form').on('submit', function(e) {
-      e.preventDefault();
-      form = $(this).attr('id')
-      button = $("button",this)
-      textarea = $("input", this)
-      string_palabras = textarea.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
-      string_palabras = escapeRegExp(string_palabras)
-      string_palabras = string_palabras.split("\,")
-      if (string_palabras[string_palabras.length-1] == ""){
-        string_palabras.splice(string_palabras.length-1, 1 );
-      }
-
+  $('form').on('submit', function(e) {
+    e.preventDefault();
+    form = $(this).attr('id')
+    button = $("button",this)
+    textarea = $("input", this)
+    string_palabras = textarea.val().toLowerCase().replace(/( *, *,*)/g, ",").trim()
+    string_palabras = escapeRegExp(string_palabras)
+    string_palabras = string_palabras.split("\,")
+    if (string_palabras[string_palabras.length-1] == ""){
+      string_palabras.splice(string_palabras.length-1, 1 );
+    }
+    chrome.storage.sync.get(null, function(data) {
       filtrar = parse_data(data, foro)
-      filtrar[foro]["ocultar"][form] = filtrar[foro]["ocultar"][form].concat(string_palabras)
+      //filtrar[foro]["ocultar"][form] = filtrar[foro]["ocultar"][form].concat(string_palabras)
+      var result = get_filtrar(data, foro)
+
       //Al guardar desde el popup activamos el foro
       pos = $.inArray(foro, filtrar["options"]["foros_usados"])
       if (pos === -1){
@@ -44,23 +45,24 @@ $(document).ready(function() {
 
       var datatosync = {}
       datatosync["filtrar"] = filtrar
+      save_words(datatosync, result[form].concat(string_palabras), foro, form)
+      // chrome.storage.sync.set(datatosync, function() {
+      //   // Notify that we saved.
+      //   let btn_class = ""
+      //   if(chrome.runtime.lastError){
+      //     console.log(chrome.runtime.lastError.message)
+      //     btn_class = "btn-danger"
+      //   }
+      //   else{
+      //     console.log("Guardado correctamente")
+      //     btn_class = "btn-success"
+      //   }
+      //   button.addClass(btn_class + " btn-raised")
+      //   setTimeout(function(){
+      //     button.removeClass(btn_class + " btn-raised")
+      //   }, 1000);
+      // });
 
-      chrome.storage.sync.set(datatosync, function() {
-        // Notify that we saved.
-        let btn_class = ""
-        if(chrome.runtime.lastError){
-          console.log(chrome.runtime.lastError.message)
-          btn_class = "btn-danger"
-        }
-        else{
-          console.log("Guardado correctamente")
-          btn_class = "btn-success"
-        }
-        button.addClass(btn_class + " btn-raised")
-        setTimeout(function(){
-          button.removeClass(btn_class + " btn-raised")
-        }, 1000);
-      });
     });
   });
 });
