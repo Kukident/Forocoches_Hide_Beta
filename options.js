@@ -79,7 +79,7 @@ $(document).ready(function() {
 
   function add_button_foro(id){
     var boton_html = '<div class="col-lg-12"> \
-    <a id="' + id + '" class="btn btn-raised btn-block btn-primary btn-foro">' + foros[id] + '<span class="close">x</span> </a>\
+    <a id="' + id + '" class="btn btn-raised btn-block btn-primary btn-foro">' + foros[id][0] + '<span class="close">x</span> </a>\
     </div> \ '
     $('#boton_end').before(boton_html)
   }

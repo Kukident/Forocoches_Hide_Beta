@@ -7,7 +7,7 @@ $(document).ready(function() {
     url = tabs[0].url
     foro = GetURLParameter(url, 'f')
     if (url.indexOf("forocoches.com") !== -1 && foro !== undefined){
-      $("#filtrado").prepend("<div class='row text-center'>" + foros[foro] + "<div>")
+      $("#filtrado").prepend("<div class='row text-center'>" + foros[foro][0] + "<div>")
     }
     else{
       $("#filtrado :input").attr("disabled", true);
