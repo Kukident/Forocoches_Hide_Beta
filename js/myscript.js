@@ -4,14 +4,13 @@ var ocultar = false
 var hilos_ocultados = 0;
 var id_foro = GetURLParameter(window.location, 'f');
 
-chrome.storage.sync.get(['banwords', 'banusers', 'filtrar','options'], function(data) {
-  // console.log(data)
+chrome.storage.sync.get(null, function(data) {
   filtrar = parse_data(data, id_foro)
-  // console.log(filtrar)
-  palabras = filtrar[id_foro]["ocultar"]["banwords"]
-  users = filtrar[id_foro]["ocultar"]["banusers"]
+  result = get_filtrar(data, id_foro)
+  palabras = result["banwords"]
+  users = result["banusers"]
   ocultar = filtrar["options"]["active"]
-  
+
   if (ocultar == true && $.inArray(id_foro, filtrar["options"]["foros_usados"]) !== -1){
     // var expreg = new RegExp("\\b("+palabras.join(")\\b|\\b(")+")\\b")
     // (?:\s|^)(cadena a comprobar)(?=\s|$)

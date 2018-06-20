@@ -7,24 +7,30 @@ chrome.runtime.onInstalled.addListener(function(details){
     console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
     if (details.previousVersion !== thisVersion){
       console.log("Actualizamos la base de datos")
-      chrome.storage.sync.get(['banwords', 'banusers'], function(data) {
-        banwords = data["banwords"]
-        banusers = data["banusers"]
-        console.log(banwords)
-        console.log(banusers)
-        if (banwords !== undefined || banusers !== undefined){
-          var datatosync = {}
-          var filtrar = {}
-          filtrar["2"] = {}
-          filtrar["2"]["ocultar"] = {}
-          filtrar["2"]["ocultar"]["banwords"] = banwords
-          filtrar["2"]["ocultar"]["banusers"] = banusers
-          datatosync["filtrar"] = filtrar
-          chrome.storage.sync.set(datatosync, function() {
-            // Notify that we saved.
-            console.log("Guardado correctamente")
-          })
+      chrome.storage.sync.get(null, function(data) {
+        console.log(data["filtrar"])
+        for (var foro in data["filtrar"]){
+          console.log(foro)
+          if ("ocultar" in data["filtrar"][foro]){
+            if ("banwords" in data["filtrar"][foro]["ocultar"]){
+              console.log("Copiamos palabras del foro " + foro)
+              data["f_" + foro + "_banwords_0"] = data["filtrar"][foro]["ocultar"]["banwords"]
+            }
+            if ("banusers" in data["filtrar"][foro]["ocultar"]){
+              console.log("Copiamos usuarios del foro " + foro)
+              data["f_" + foro + "_banusers_0"] = data["filtrar"][foro]["ocultar"]["banusers"]
+            }
+          }
         }
+        console.log(data);
+        chrome.storage.sync.set(data, function() {
+          if(chrome.runtime.lastError){
+            console.log(chrome.runtime.lastError.message)
+          }
+          else{
+            console.log("Actualización de la base de datos realizada correctamente")
+          }
+        });
       });
     }
   }

@@ -1,3 +1,84 @@
+function get_filtrar(data, foro){
+  var banwords = []
+  var banusers = []
+
+  keys = Object.keys(data)
+  keys.forEach((key) => {
+    if (key.includes("f_" + foro + "_" + "banwords_")){
+      banwords = banwords.concat(data[key])
+    }
+    if (key.includes("f_" + foro + "_" + "banusers_")){
+      banusers = banusers.concat(data[key])
+    }
+  })
+  banwords.sort()
+  banusers.sort()
+  return {"banwords" : banwords, "banusers": banusers}
+}
+
+function save_words(datatosync, string_palabras, foro, form){
+  let json_test = {form: string_palabras}
+  let i = 1
+  let tmp_array = []
+  let tmp_array2 = []
+
+  while (lengthInUtf8Bytes(JSON.stringify(json_test)) >= 8000){
+    tmp_array.unshift(string_palabras.pop())
+    let json_test2 = {form: tmp_array}
+    if (lengthInUtf8Bytes(JSON.stringify(json_test2)) >= 8000){
+      tmp_array2 = []
+      // while(lengthInUtf8Bytes(JSON.stringify(json_test2)) >= 8000){
+      tmp_array2.unshift(tmp_array.pop())
+      json_test2 = {form: tmp_array}
+      // }
+      let name = "f_" + foro + "_" + form + "_" + i
+      let name1 = "f_" + foro + "_" + form + "_" + (i+1)
+      datatosync[name] = tmp_array
+      datatosync[name1] = tmp_array2
+      tmp_array = []
+      i += 1
+    }
+  }
+  let name0 = "f_" + foro + "_" + form + "_" + "0"
+  let namen = "f_" + foro + "_" + form + "_" + i
+  datatosync[name0] = string_palabras
+
+  if (tmp_array.length !== 0 && datatosync[namen]){
+    datatosync[namen] = datatosync[namen].concat(tmp_array)
+  }
+  if (tmp_array2.length !== 0 && datatosync[namen]){
+    datatosync[namen] = datatosync[namen].concat(tmp_array2)
+  }
+
+  chrome.storage.sync.set(datatosync, function() {
+    // Notify that we saved.
+    let btn_class = ""
+    if(chrome.runtime.lastError){
+      console.log(chrome.runtime.lastError.message)
+      btn_class = "btn-danger"
+    }
+    else{
+      console.log("Guardado correctamente")
+      btn_class = "btn-success"
+      chrome.storage.sync.get(null, function(data) {
+        keys = Object.keys(data)
+        keys_to_remove = []
+        keys.forEach((key) => {
+          console.log(key)
+          if (key.includes("f_" + foro + "_" + form + "_") && !datatosync[key]){
+            keys_to_remove.push(key)
+          }
+        })
+        chrome.storage.sync.remove(keys_to_remove)
+      });
+    }
+    button.addClass(btn_class + " btn-raised")
+    setTimeout(function(){
+      button.removeClass(btn_class + " btn-raised")
+    }, 1000);
+  });
+}
+
 function parse_data(data, foro){
   var filtrar = {}
   if (data['filtrar'] !== undefined){
@@ -16,35 +97,8 @@ function parse_data(data, foro){
         filtrar["options"]["active"] = true
       }
     }
-
-    if (data['filtrar'][foro] == undefined){
-      filtrar[foro] = {}
-      filtrar[foro]["ocultar"] = {}
-      filtrar[foro]["ocultar"]["banwords"] = []
-      filtrar[foro]["ocultar"]["banusers"] = []
-    }
-    else {
-      if (data['filtrar'][foro]["ocultar"] == undefined){
-        filtrar[foro]["ocultar"] = {}
-        filtrar[foro]["ocultar"]["banwords"] = []
-        filtrar[foro]["ocultar"]["banusers"] = []
-      }
-      else{
-
-        if (data['filtrar'][foro]["ocultar"]["banwords"] == undefined){
-          filtrar[foro]["ocultar"]["banwords"] = []
-        }
-        if(data['filtrar'][foro]["ocultar"]["banusers"] == undefined){
-          filtrar[foro]["ocultar"]["banusers"] = []
-        }
-      }
-    }
   }
   else{
-    filtrar[foro] = {}
-    filtrar[foro]["ocultar"] = {}
-    filtrar[foro]["ocultar"]["banwords"] = []
-    filtrar[foro]["ocultar"]["banusers"] = []
     filtrar["options"] = {}
     filtrar["options"]["foros_usados"] = ['2']
     filtrar["options"]["active"] = true
@@ -65,6 +119,12 @@ function GetURLParameter(url, sParam){
       return sParameterName[1];
     }
   }
+}
+
+function lengthInUtf8Bytes(str) {
+  // Matches only the 10.. bytes that are non-initial characters in a multi-byte sequence.
+  var m = encodeURIComponent(str).match(/%[89ABab]/g);
+  return str.length + (m ? m.length : 0);
 }
 
 function escapeRegExp(text) {
