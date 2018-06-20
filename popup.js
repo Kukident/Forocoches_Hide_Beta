@@ -46,23 +46,6 @@ $(document).ready(function() {
       var datatosync = {}
       datatosync["filtrar"] = filtrar
       save_words(datatosync, result[form].concat(string_palabras), foro, form)
-      // chrome.storage.sync.set(datatosync, function() {
-      //   // Notify that we saved.
-      //   let btn_class = ""
-      //   if(chrome.runtime.lastError){
-      //     console.log(chrome.runtime.lastError.message)
-      //     btn_class = "btn-danger"
-      //   }
-      //   else{
-      //     console.log("Guardado correctamente")
-      //     btn_class = "btn-success"
-      //   }
-      //   button.addClass(btn_class + " btn-raised")
-      //   setTimeout(function(){
-      //     button.removeClass(btn_class + " btn-raised")
-      //   }, 1000);
-      // });
-
     });
   });
 });

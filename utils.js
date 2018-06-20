@@ -97,35 +97,8 @@ function parse_data(data, foro){
         filtrar["options"]["active"] = true
       }
     }
-
-    // if (data['filtrar'][foro] == undefined){
-    //   filtrar[foro] = {}
-    //   filtrar[foro]["ocultar"] = {}
-    //   filtrar[foro]["ocultar"]["banwords"] = []
-    //   filtrar[foro]["ocultar"]["banusers"] = []
-    // }
-    // else {
-    //   if (data['filtrar'][foro]["ocultar"] == undefined){
-    //     filtrar[foro]["ocultar"] = {}
-    //     filtrar[foro]["ocultar"]["banwords"] = []
-    //     filtrar[foro]["ocultar"]["banusers"] = []
-    //   }
-    //   else{
-    //
-    //     if (data['filtrar'][foro]["ocultar"]["banwords"] == undefined){
-    //       filtrar[foro]["ocultar"]["banwords"] = []
-    //     }
-    //     if(data['filtrar'][foro]["ocultar"]["banusers"] == undefined){
-    //       filtrar[foro]["ocultar"]["banusers"] = []
-    //     }
-    //   }
-    // }
   }
   else{
-    filtrar[foro] = {}
-    filtrar[foro]["ocultar"] = {}
-    filtrar[foro]["ocultar"]["banwords"] = []
-    filtrar[foro]["ocultar"]["banusers"] = []
     filtrar["options"] = {}
     filtrar["options"]["foros_usados"] = ['2']
     filtrar["options"]["active"] = true

@@ -5,11 +5,7 @@ var hilos_ocultados = 0;
 var id_foro = GetURLParameter(window.location, 'f');
 
 chrome.storage.sync.get(null, function(data) {
-  // console.log(data)
   filtrar = parse_data(data, id_foro)
-  // console.log(filtrar)
-  // palabras = filtrar[id_foro]["ocultar"]["banwords"]
-  // users = filtrar[id_foro]["ocultar"]["banusers"]
   result = get_filtrar(data, id_foro)
   palabras = result["banwords"]
   users = result["banusers"]
