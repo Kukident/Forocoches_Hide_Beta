@@ -5,21 +5,17 @@ $(document).ready(function() {
 
 
   function get_db(foro, options2=false){
-    chrome.storage.sync.get(['banwords', 'banusers', 'filtrar', 'options'], function(data) {
-      // console.log(data)
+    chrome.storage.sync.get(null, function(data) {
+      console.log(data)
       var banwords = []
       var banusers = []
 
+      var result = get_filtrar(data,foro)
+      banwords = result["banwords"]
+      banusers = result["banusers"]
+
       filtrar = parse_data(data, foro)
-      // console.log(filtrar)
-      banwords = filtrar[foro]["ocultar"]["banwords"]
-      banusers = filtrar[foro]["ocultar"]["banusers"]
-
       $('#ocultar').attr('checked', filtrar["options"]["active"])
-
-      //DEPRECATED: Borrar codigo, util cuando utilizabamos textarea en vez de materialtags
-      //$("#lista").val(banwords.join(", ").replace(/[\\]/g,''));
-      // $("#lista2").val(banusers.join(", ").replace(/[\\]/g,''));
 
       if (options2){
         filtrar["options"]["foros_usados"].forEach(function(id){
@@ -63,7 +59,7 @@ $(document).ready(function() {
 
   function add_button_foro(id){
     var boton_html = '<div class="col-lg-12"> \
-    <a id="' + id + '" class="btn btn-raised btn-block btn-primary btn-foro">' + foros[id] + '<span class="close">x</span> </a>\
+    <a id="' + id + '" class="btn btn-raised btn-block btn-primary btn-foro">' + foros[id][0] + '<span class="close">x</span> </a>\
     </div> \ '
     $('#boton_end').before(boton_html)
   }
@@ -173,17 +169,7 @@ $(document).ready(function() {
 
     var datatosync = {}
     datatosync["filtrar"] = filtrar
-    datatosync["filtrar"][foro]["ocultar"][form] = string_palabras
-    // console.log("Guardamos estos datos en la BD")
-    // console.log(datatosync)
-    chrome.storage.sync.set(datatosync, function() {
-      // Notify that we saved.
-      console.log("Guardado correctamente")
-      button.addClass("btn-success btn-raised")
-      setTimeout(function(){
-        button.removeClass("btn-success btn-raised")
-      }, 1000);
-    });
+    save_words(datatosync, string_palabras, foro, form)
   });
 
   $(function() {

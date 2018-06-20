@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+
+## 1.1.0 - (2018-06-20)
+* Añadido soporte para la reproduccion de WebM
+* Ahora el icono de la extension se deshabilita fuera de ForoCoches
+* Arreglado problema por que el que se alcanzaba rapidamente el limite de datos a guardar por la extension en Chrome.
+
 ## 1.0.0 - (2017-09-17)
 * Añadido Materialize Tags para lista de palabras a bloquear.
 * Añadidos todos los subforos, con listas independientes para cada uno.
