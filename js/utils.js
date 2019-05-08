@@ -16,40 +16,35 @@ function get_filtrar(data, foro){
   return {"banwords" : banwords, "banusers": banusers}
 }
 
+function split_data(string_palabras, foro, form, max_size_array = []) {
+  let json_test = {["f_" + foro + "_" + form + "_0"]: string_palabras}
+  let excess_words = []
+  while (lengthInUtf8Bytes(JSON.stringify(json_test)) >= 8000) {
+    console.log("Dentro del while")
+    excess_words.unshift(string_palabras.pop())
+  }
+  excess_words_json = {["f_" + foro + "_" + form + "_0"]: excess_words}
+  max_size_array.push(string_palabras)
+  if (lengthInUtf8Bytes(JSON.stringify(excess_words_json)) >= 8000){
+    console.log("Bucle infinito")
+    max_size_array = split_data(excess_words, foro, form, max_size_array)
+  }
+  else if (excess_words.length !== 0){
+    max_size_array.push(excess_words)
+  }
+  return max_size_array
+}
+
 function save_words(datatosync, string_palabras, foro, form){
-  let json_test = {form: string_palabras}
-  let i = 1
-  let tmp_array = []
-  let tmp_array2 = []
-
-  while (lengthInUtf8Bytes(JSON.stringify(json_test)) >= 8000){
-    tmp_array.unshift(string_palabras.pop())
-    let json_test2 = {form: tmp_array}
-    if (lengthInUtf8Bytes(JSON.stringify(json_test2)) >= 8000){
-      tmp_array2 = []
-      // while(lengthInUtf8Bytes(JSON.stringify(json_test2)) >= 8000){
-      tmp_array2.unshift(tmp_array.pop())
-      json_test2 = {form: tmp_array}
-      // }
-      let name = "f_" + foro + "_" + form + "_" + i
-      let name1 = "f_" + foro + "_" + form + "_" + (i+1)
-      datatosync[name] = tmp_array
-      datatosync[name1] = tmp_array2
-      tmp_array = []
-      i += 1
-    }
-  }
-  let name0 = "f_" + foro + "_" + form + "_" + "0"
-  let namen = "f_" + foro + "_" + form + "_" + i
-  datatosync[name0] = string_palabras
-
-  if (tmp_array.length !== 0 && datatosync[namen]){
-    datatosync[namen] = datatosync[namen].concat(tmp_array)
-  }
-  if (tmp_array2.length !== 0 && datatosync[namen]){
-    datatosync[namen] = datatosync[namen].concat(tmp_array2)
-  }
-
+  let splited_words_array = split_data(string_palabras, foro, form)
+  console.debug("Se van a guardar las palabras en " + splited_words_array.length + " keys de la BD")
+  splited_words_array.forEach((array_data, index) =>{
+    let name = "f_" + foro + "_" + form + "_" + index
+    datatosync[name] = array_data
+    console.log(lengthInUtf8Bytes(datatosync))
+  })
+  console.log("huehuehue")
+  console.log(datatosync)
   chrome.storage.sync.set(datatosync, function() {
     // Notify that we saved.
     let btn_class = ""
@@ -64,11 +59,14 @@ function save_words(datatosync, string_palabras, foro, form){
         keys = Object.keys(data)
         keys_to_remove = []
         keys.forEach((key) => {
-          console.log(key)
+          console.log("123" + key)
+          console.log(datatosync)
           if (key.includes("f_" + foro + "_" + form + "_") && !datatosync[key]){
             keys_to_remove.push(key)
           }
         })
+        console.debug("Keys to remove:")
+        console.debug(keys_to_remove)
         chrome.storage.sync.remove(keys_to_remove)
       });
     }
