@@ -1,3 +1,4 @@
+/** Junta en un unico array los diferentes arrays que contienen palabras*/
 function get_filtrar(data, foro){
   var banwords = []
   var banusers = []
@@ -16,17 +17,16 @@ function get_filtrar(data, foro){
   return {"banwords" : banwords, "banusers": banusers}
 }
 
+/** Separa en diferentes arrays el array original que contiene las palabras a almacenar */
 function split_data(string_palabras, foro, form, max_size_array = []) {
   let json_test = {["f_" + foro + "_" + form + "_0"]: string_palabras}
   let excess_words = []
   while (lengthInUtf8Bytes(JSON.stringify(json_test)) >= 8000) {
-    console.log("Dentro del while")
     excess_words.unshift(string_palabras.pop())
   }
   excess_words_json = {["f_" + foro + "_" + form + "_0"]: excess_words}
   max_size_array.push(string_palabras)
   if (lengthInUtf8Bytes(JSON.stringify(excess_words_json)) >= 8000){
-    console.log("Bucle infinito")
     max_size_array = split_data(excess_words, foro, form, max_size_array)
   }
   else if (excess_words.length !== 0){
@@ -35,32 +35,29 @@ function split_data(string_palabras, foro, form, max_size_array = []) {
   return max_size_array
 }
 
+/** Guarda en la BD las nuevas palabras*/
 function save_words(datatosync, string_palabras, foro, form){
   let splited_words_array = split_data(string_palabras, foro, form)
   console.debug("Se van a guardar las palabras en " + splited_words_array.length + " keys de la BD")
   splited_words_array.forEach((array_data, index) =>{
     let name = "f_" + foro + "_" + form + "_" + index
     datatosync[name] = array_data
-    console.log(lengthInUtf8Bytes(datatosync))
   })
-  console.log("huehuehue")
-  console.log(datatosync)
+
   chrome.storage.sync.set(datatosync, function() {
     // Notify that we saved.
     let btn_class = ""
     if(chrome.runtime.lastError){
-      console.log(chrome.runtime.lastError.message)
+      console.debug(chrome.runtime.lastError.message)
       btn_class = "btn-danger"
     }
     else{
-      console.log("Guardado correctamente")
+      console.debug("Guardado correctamente")
       btn_class = "btn-success"
       chrome.storage.sync.get(null, function(data) {
         keys = Object.keys(data)
         keys_to_remove = []
         keys.forEach((key) => {
-          console.log("123" + key)
-          console.log(datatosync)
           if (key.includes("f_" + foro + "_" + form + "_") && !datatosync[key]){
             keys_to_remove.push(key)
           }
@@ -77,6 +74,7 @@ function save_words(datatosync, string_palabras, foro, form){
   });
 }
 
+/** Genera la estructura basica si esta no existe cuando la obtenemos de la BD*/
 function parse_data(data, foro){
   var filtrar = {}
   if (data['filtrar'] !== undefined){
