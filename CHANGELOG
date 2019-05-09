@@ -2,6 +2,9 @@ CHANGELOG
 =========
 
 
+## 1.1.1 - (2019-05-09)
+* Arreglado problema al no guardar nuevas palabras cuando se alcanzaba cierto limite.
+
 ## 1.1.0 - (2018-06-20)
 * Añadido soporte para la reproduccion de WebM
 * Ahora el icono de la extension se deshabilita fuera de ForoCoches
