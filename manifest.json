@@ -1,10 +1,10 @@
 {
 	"manifest_version": 2,
-	"name": "ForoCoches Hide BETA",
-	"short_name" : "FC Hide BETA",
+	"name": "ForoCoches Hide",
+	"short_name" : "FC Hide",
 	"options_page": "options.html",
 	"description": "Bloquea los hilos que no te interesen de cualquier subforo de Forocoches.",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"permissions": [
 		"storage",
 		"activeTab",
