@@ -4,7 +4,7 @@ $(document).ready(function() {
   //console.log(posts)
   posts.each(function(id){
     var expreg_url = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*).webm/g)
-    if ($(this).text().match(expreg_url)){
+    if (this.href.match(expreg_url)){
       $(this).replaceWith('<meta name="referrer" content="no-referrer" /> \
       <video muted style="display:block; margin: 0 auto;" controls width="640" height="360">   \
       <source src="' + $(this).text() + '" type="video/webm"> \
