@@ -26,6 +26,9 @@ $(document).ready(function() {
       }
       $("#lista").materialtags("add",banwords.join(", ").replace(/[\\]/g,''))
       $("#lista2").materialtags("add",banusers.join(", ").replace(/[\\]/g,''))
+
+      $("#contador_palabras").text(banwords.length)
+      $("#contador_usuarios").text(banusers.length)
     });
   }
 
@@ -170,6 +173,13 @@ $(document).ready(function() {
     var datatosync = {}
     datatosync["filtrar"] = filtrar
     save_words(datatosync, string_palabras, foro, form)
+
+    if (form === 'banwords') {
+      $("#contador_palabras").text(string_palabras.length)
+    }
+    else if (form === 'banusers'){
+      $("#contador_usuarios").text(string_palabras.length)
+    }
   });
 
   $(function() {
