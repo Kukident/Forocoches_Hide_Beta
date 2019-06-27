@@ -33,6 +33,12 @@
 			"matches": ["https://www.forocoches.com/foro/showthread.php?t=*", "http://www.forocoches.com/foro/showthread.php?t=*"],
 			"js": ["js/libs/jquery-3.2.1.js", "js/libs/isInViewport.js", "js/utils.js", "js/posts.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://www.forocoches.com/foro/newreply.php*", "https://www.forocoches.com/foro/newreply.php*",
+			"http://www.forocoches.com/foro/newthread.php*","https://www.forocoches.com/foro/newthread.php?*"],
+			"js": ["js/libs/jquery-3.2.1.js", "js/posts_reply.js"],
+			"run_at": "document_end"
 		}
 	],
 	"background": {

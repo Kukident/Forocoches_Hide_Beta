@@ -5,7 +5,7 @@ CHANGELOG
 ## Undefined
 * Arreglado fallo al reproducir algunos webms
 * Añadido contador de palabras a ocultar en pagina de opciones.
-* Añadida subida de fotos con drag & drop a imgur desde el cajon de respuesta rapida de un post.
+* Añadida subida de fotos con drag & drop a imgur desde el textarea a la hora de crear o responder a un post.
 
 ## 1.1.1 - (2019-05-09)
 * Arreglado problema al no guardar nuevas palabras cuando se alcanzaba cierto limite.
