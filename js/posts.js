@@ -25,6 +25,79 @@ $(document).ready(function() {
       }
     }, true);
   }
+
+
+  /* Drag'n drop stuff */
+  $('#vB_Editor_QR').on('dragover', add_background_textarea)
+  $('#vB_Editor_QR').on('dragleave', remove_background_textarea)
+
+  function add_background_textarea() {
+    css_style = {
+      'background-image': 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Imgur_logo.svg/1200px-Imgur_logo.svg.png)',
+      'background-size': '200px',
+      'background-repeat': 'no-repeat',
+      'background-position': 'center',
+    }
+    $('#vB_Editor_QR_textarea').css(css_style)
+  }
+
+  function remove_background_textarea(){
+    css_style = {
+      'background-image': '',
+      'background-size': '',
+      'background-repeat': '',
+      'background-position': '',}
+    $('#vB_Editor_QR_textarea').css(css_style)
+  }
+
+  $('#vB_Editor_QR').on('drop', function(e) {
+    remove_background_textarea()
+    let file = e.originalEvent.dataTransfer.files[0]
+    // if (file && file.type.match(/image.*/)){
+      e.preventDefault();
+      e.stopPropagation();
+      upload(file);
+
+    // }
+  })
+
+  function upload(file) {
+    var fd = new FormData();
+    fd.append("image", file);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.imgur.com/3/image.json");
+    xhr.onload = function () {
+      if (JSON.parse(xhr.responseText).success) {
+        upload_image_status_animation('palegreen')
+        let imgur_link = '[IMG]' + JSON.parse(xhr.responseText).data.link + '[/IMG]'
+        $('#vB_Editor_QR_textarea').val($('#vB_Editor_QR_textarea').val() + imgur_link)
+        console.debug(imgur_link)
+      }
+      else{
+        console.error('Error subiendo imagen a imgur')
+        upload_image_status_animation('indianred')
+      }
+    }
+    xhr.onerror = function () {
+      console.error('Error subiendo imagen a imgur')
+      upload_image_status_animation('indianred')
+    }
+      xhr.setRequestHeader('Authorization', 'Client-ID 49e09bca2e0bbd8');
+      xhr.send(fd);
+
+  }
+
+  function upload_image_status_animation(color) {
+    document.getElementById("vB_Editor_QR_textarea").animate([
+      // keyframes
+      {background: color},
+      {background: 'white'}
+    ], {
+      // timing options
+      duration: 1500
+    });
+  }
+
 })
 
 $(window).scroll(function() {
