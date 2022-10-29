@@ -1,10 +1,10 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "ForoCoches Hide",
 	"short_name" : "FC Hide",
 	"options_page": "options.html",
 	"description": "Bloquea los hilos que no te interesen de cualquier subforo de Forocoches.",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"permissions": [
 		"storage",
 		"activeTab",
@@ -15,34 +15,36 @@
 		"48": "img/icon.png",
 		"128": "img/icon.png"
 	},
-	"page_action": {
+	"action": {
 		"default_icon": {
 			"19": "img/icon.png",
 			"38": "img/icon.png"
 		},
 		"default_popup": "popup.html"
 	},
-	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+	"content_security_policy": {
+		"extension_pages": "script-src 'self'; object-src 'self'",
+		"sandbox": "sandbox allow-scripts; script-src 'self' 'https://apis.google.com/' 'https://www.gstatic.com/' 'https://*.firebaseio.com' 'https://www.googleapis.com' 'https://ajax.googleapis.com'; object-src 'self'"
+	},
 	"content_scripts": [
 		{
-			"matches": ["http://www.forocoches.com/foro/forumdisplay.php?f=*","https://www.forocoches.com/foro/forumdisplay.php?f=*"],
+			"matches": ["http://forocoches.com/foro/forumdisplay.php?f=*","https://forocoches.com/foro/forumdisplay.php?f=*"],
 			"js": ["js/libs/jquery-3.2.1.js", "js/utils.js", "js/myscript.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.forocoches.com/foro/showthread.php?t=*", "http://www.forocoches.com/foro/showthread.php?t=*"],
+			"matches": ["https://forocoches.com/foro/showthread.php?t=*", "http://forocoches.com/foro/showthread.php?t=*"],
 			"js": ["js/libs/jquery-3.2.1.js", "js/libs/isInViewport.js", "js/utils.js", "js/posts.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["http://www.forocoches.com/foro/newreply.php*", "https://www.forocoches.com/foro/newreply.php*",
-			"http://www.forocoches.com/foro/newthread.php*","https://www.forocoches.com/foro/newthread.php?*"],
+			"matches": ["http://forocoches.com/foro/newreply.php*", "https://forocoches.com/foro/newreply.php*",
+			"http://forocoches.com/foro/newthread.php*","https://forocoches.com/foro/newthread.php?*"],
 			"js": ["js/libs/jquery-3.2.1.js", "js/posts_reply.js"],
 			"run_at": "document_end"
 		}
 	],
 	"background": {
-		"scripts": ["js/eventPage.js"],
-		"persistent": false
+		"service_worker": "js/eventPage.js"
 	}
 }

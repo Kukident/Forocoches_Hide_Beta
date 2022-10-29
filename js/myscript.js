@@ -3,6 +3,15 @@ var users = []
 var ocultar = false
 var hilos_ocultados = 0;
 var id_foro = GetURLParameter(window.location, 'f');
+var temaForo = 'old';
+
+// Detectamos tema foro
+if ($("#fc-desktop-version-tag-for-monitoring").length > 0) {
+  temaForo = 'new';
+  manageNewThemeHtml();
+} else {
+  manageOldThemeHtml();
+}
 
 chrome.storage.sync.get(null, function(data) {
   filtrar = parse_data(data, id_foro)
@@ -50,41 +59,42 @@ chrome.storage.sync.get(null, function(data) {
   }
 });
 
-
+function manageOldThemeHtml() {
 //////////////////////Inicio crear interfaz\\\\\\\\\\\\\\\\\\\\\\\\\\\\º
-$("#threadslist").children().first().after('<tbody id="collapseobj_st_3"> \
-</tbody> \
-')
+  $("#threadslist").children().first().after('<tbody id="collapseobj_st_3"></tbody>')
 //TODO: Optimizar codigo
 //console.log($("#stickies_collapse"))
-if ($("#stickies_collapse").length){
-  $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
+  if ($("#stickies_collapse").length) {
+    $("#stickies_collapse").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
   <a href=""> \
   Hilos Ocultos \
-  <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
+  <img id="collapseimg_st_3" src="/foro/images/misc/menu_open.gif" alt="" border="0" hspace="3"> \
   </a> \
   </td>')
-}
-else {
-  $("#forumtools").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
+  } else {
+    $("#forumtools").before('<td class="vbmenu_control" id="hide_collapse" nowrap="nowrap"> \
   <a href=""> \
   Hilos Ocultos \
-  <img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3"> \
+  <img id="collapseimg_st_3" src="/foro/images/misc/menu_open.gif" alt="" border="0" hspace="3"> \
   </a> \
   </td>')
-}
-$("#collapseobj_st_3").hide()
+  }
+  $("#collapseobj_st_3").hide()
 // $("#collapseobj_st_3").append('<tr><td class="thead" colspan="6">&nbsp;</td></tr>')
 
-$("#hide_collapse").on('click', function(e) {
-  e.preventDefault();
-  if ($("#collapseobj_st_3").is(":visible")){
-    $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat_collapsed.gif" alt="" border="0" hspace="3">')
-    $("#collapseobj_st_3").hide()
-  }
-  else {
-    $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="//st.forocoches.com/foro/images/buttons/collapse_tcat.gif" alt="" border="0" hspace="3">')
-    $("#collapseobj_st_3").show()
-  }
-});
+  $("#hide_collapse").on('click', function (e) {
+    e.preventDefault();
+    if ($("#collapseobj_st_3").is(":visible")) {
+      $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="/foro/images/misc/menu_open.gif" alt="" border="0" hspace="3">')
+      $("#collapseobj_st_3").hide()
+    } else {
+      $("#collapseimg_st_3").replaceWith('<img id="collapseimg_st_3" src="/foro/images/misc/menu_open.gif" alt="" border="0" hspace="3" style="transform: rotate(180deg);">')
+      $("#collapseobj_st_3").show()
+    }
+  });
 //////////////////////Fin crear interfaz\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+}
+
+function manageNewThemeHtml() {
+  //  $("#sorting").before('<div id="collapseobj_st_3" class="collapseobj">Holi</div>')
+}
