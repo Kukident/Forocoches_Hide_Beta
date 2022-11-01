@@ -1,10 +1,10 @@
 var customStorage = {
     sync : {
         getBrowserStorage: function () {
-            console.log(navigator.vendor)
             if (navigator.vendor.includes('Google')) {
                 return chrome;
             }
+            return browser;
         },
         get: function (key, callback) {
             this.getBrowserStorage().storage.sync.get(key, callback);
