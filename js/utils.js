@@ -44,7 +44,7 @@ function save_words(datatosync, string_palabras, foro, form){
     datatosync[name] = array_data
   })
 
-  chrome.storage.sync.set(datatosync, function() {
+  customStorage.sync.set(datatosync, function() {
     // Notify that we saved.
     let btn_class = ""
     if(chrome.runtime.lastError){
@@ -54,7 +54,7 @@ function save_words(datatosync, string_palabras, foro, form){
     else{
       console.debug("Guardado correctamente")
       btn_class = "btn-success"
-      chrome.storage.sync.get(null, function(data) {
+      customStorage.sync.get(null, function(data) {
         keys = Object.keys(data)
         keys_to_remove = []
         keys.forEach((key) => {
@@ -64,7 +64,7 @@ function save_words(datatosync, string_palabras, foro, form){
         })
         console.debug("Keys to remove:")
         console.debug(keys_to_remove)
-        chrome.storage.sync.remove(keys_to_remove)
+        customStorage.sync.remove(keys_to_remove)
       });
     }
     button.addClass(btn_class + " btn-raised")

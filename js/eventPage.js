@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(function(details){
     console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
     if (details.previousVersion !== thisVersion){
       console.log("Actualizamos la base de datos")
-      chrome.storage.sync.get(null, function(data) {
+      customStorage.sync.get(null, function(data) {
         console.log(data["filtrar"])
         for (var foro in data["filtrar"]){
           console.log(foro)
@@ -23,7 +23,7 @@ chrome.runtime.onInstalled.addListener(function(details){
           }
         }
         console.log(data);
-        chrome.storage.sync.set(data, function() {
+        customStorage.sync.set(data, function() {
           if(chrome.runtime.lastError){
             console.log(chrome.runtime.lastError.message)
           }

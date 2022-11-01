@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 
   function get_db(foro, options2=false){
-    chrome.storage.sync.get(null, function(data) {
+    customStorage.sync.get(null, function(data) {
       console.log(data)
       var banwords = []
       var banusers = []
@@ -33,7 +33,7 @@ $(document).ready(function() {
   }
 
   $('#borrar').on('click', function(e){
-    chrome.storage.sync.clear();
+    customStorage.sync.clear();
     console.log("Borrar BD")
   })
 
@@ -197,7 +197,7 @@ $(document).ready(function() {
   function save_options(){
     var datatosync = {}
     datatosync["filtrar"] = filtrar
-    chrome.storage.sync.set(datatosync, function() {
+    customStorage.sync.set(datatosync, function() {
       // Notify that we saved.
       console.log("Guardado correctamente")
     });

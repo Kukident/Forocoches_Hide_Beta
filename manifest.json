@@ -29,12 +29,12 @@
 	"content_scripts": [
 		{
 			"matches": ["http://forocoches.com/foro/forumdisplay.php?f=*","https://forocoches.com/foro/forumdisplay.php?f=*"],
-			"js": ["js/libs/jquery-3.2.1.js", "js/utils.js", "js/myscript.js"],
+			"js": ["js/libs/jquery-3.2.1.js", "js/utils.js", "js/storage.js", "js/myscript.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://forocoches.com/foro/showthread.php?t=*", "http://forocoches.com/foro/showthread.php?t=*"],
-			"js": ["js/libs/jquery-3.2.1.js", "js/libs/isInViewport.js", "js/utils.js", "js/posts.js"],
+			"js": ["js/libs/jquery-3.2.1.js", "js/libs/isInViewport.js", "js/utils.js", "js/storage.js", "js/posts.js"],
 			"run_at": "document_end"
 		},
 		{

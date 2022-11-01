@@ -13,7 +13,7 @@ if ($("#fc-desktop-version-tag-for-monitoring").length > 0) {
   manageOldThemeHtml();
 }
 
-chrome.storage.sync.get(null, function(data) {
+customStorage.sync.get(null, function(data) {
   filtrar = parse_data(data, id_foro)
   result = get_filtrar(data, id_foro)
   palabras = result["banwords"]
@@ -107,7 +107,7 @@ function hideNewThemeThreads(ocultar, expreg, expreg_users) {
   $("[id^=thread_title_]").each(function(){
     var texto = $(this).text().trim().toLowerCase()
     var user = $(this).parent().next().text().trim().toLowerCase() //Revisar esto
-    console.log(texto)
+    //console.log(texto)
 
     if (texto.match(expreg) != null || user.match(expreg_users) != null){
       if (ocultar === true) {

@@ -32,7 +32,7 @@ $(document).ready(function() {
     if (string_palabras[string_palabras.length-1] == ""){
       string_palabras.splice(string_palabras.length-1, 1 );
     }
-    chrome.storage.sync.get(null, function(data) {
+    customStorage.sync.get(null, function(data) {
       filtrar = parse_data(data, foro)
       //filtrar[foro]["ocultar"][form] = filtrar[foro]["ocultar"][form].concat(string_palabras)
       var result = get_filtrar(data, foro)
