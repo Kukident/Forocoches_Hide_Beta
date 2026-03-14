@@ -1,0 +1,34 @@
+Forocoches+ mejora tu experiencia en Forocoches con herramientas de filtrado, resaltado y personalización.
+
+**Ocultar hilos**
+Oculta hilos que contengan palabras clave o sean de usuarios concretos. Los filtros se configuran por subforo o de forma global para todos los foros.
+
+**Resaltar hilos**
+Resalta hilos que contengan palabras o sean de usuarios que te interesen, con colores personalizables.
+
+**Usuarios VIP**
+Marca usuarios como VIP para resaltar sus hilos y posts con colores individuales. Los hilos de usuarios VIP pueden protegerse para que nunca se oculten por filtros.
+
+**Notas de usuario**
+Añade notas a cualquier usuario. Se muestran junto a su nombre en la lista de hilos y en los posts.
+
+**Ignorar usuarios en posts**
+Oculta o colapsa bajo spoiler los mensajes de usuarios ignorados dentro de los hilos.
+
+**Resaltar OP y poles**
+Resalta los mensajes del creador del hilo y los hilos con 0 respuestas (poles).
+
+**Grupos de filtros rápidos**
+Crea grupos de palabras/usuarios que puedes activar o desactivar con un clic desde el popup. Soportan duración temporal (horas) o por sesión.
+
+**Indicador de filtro**
+Muestra qué filtro causó que un hilo se ocultara o resaltara.
+
+**Vídeos inline**
+Embebe vídeos WebM, MP4 y OGG directamente en los posts.
+
+**Sincronización entre dispositivos**
+Tus filtros, grupos, usuarios VIP y notas se sincronizan automáticamente entre navegadores a través de tu cuenta del navegador.
+
+**Privacidad**
+La extensión no recopila ni envía datos a ningún servidor externo. Todos los datos se almacenan localmente en tu navegador.
