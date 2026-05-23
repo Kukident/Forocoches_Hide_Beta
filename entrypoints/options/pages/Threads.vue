@@ -110,7 +110,7 @@ async function saveFeature<K extends keyof FcFeatureConfig>(key: K, value: FcFea
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Color</label>
-          <ColorPicker :model-value="cfg.highlightOPColor" @update:model-value="saveFeature('highlightOPColor', $event)" />
+          <ColorPicker :model-value="cfg.highlightOPColor" @update:model-value="saveFeature('highlightOPColor', $event)" :presets="['#ca3415', '#fff3cd', '#e8f4f8', '#e8f8e8', '#fff0e0', '#fff8e0', '#f8e8e8', '#e8e8f8']" />
         </div>
       </div>
     </div>
